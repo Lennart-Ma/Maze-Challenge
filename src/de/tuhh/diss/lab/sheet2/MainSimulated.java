@@ -15,7 +15,8 @@ public class MainSimulated {
 		gui.startVisualization();
 
 		//Task1.main(args);
-		Task2.main(args);
+		//Task2.main(args);
+		Task3.main(args);
 		
 		
 		Delay.msDelay(100);
