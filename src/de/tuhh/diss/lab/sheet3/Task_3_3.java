@@ -14,63 +14,71 @@ import lejos.utility.Delay;
 public class Task_3_3 {
 
 	public static void main(String[] args) {
+				
+		approachWall();
 		
+	}
+
+	
+	public static void approachWall() {
+		
+        int rightMotorSpeed = 500;
+		int leftMotorSpeed = 500;
+		int x_display = 0;
+		int y_displayDistance = 5;
+		int y_displayColor = y_displayDistance + 1;
+		int delay = 5; // in milliseconds
+		float minDist = 5; //in cm
+		float distance = checkDistance();
 		
 		var rightMotor = new EV3LargeRegulatedMotor(MotorPort.C);
 		var leftMotor = new EV3LargeRegulatedMotor(MotorPort.B);
 		
-		rightMotor.setSpeed(500);
-		leftMotor.setSpeed(500);
+		rightMotor.setSpeed(rightMotorSpeed);
+		leftMotor.setSpeed(leftMotorSpeed);
 		
-		int x = 0;
-		int y = 5;
-		int y_2 = y + 1;
-		
-		
-		float max_dist = 5; //cm
-		
-		float distance = checkDistance();
-		
-		
+		// push arrow up - move forward		
 		switch (Button.waitForAnyPress()) {
 		
-		// push arrow up - move forward
 		case 1:
-			do {
+			while (distance > minDist ) {
 				rightMotor.backward();
 				leftMotor.backward();
-				Delay.msDelay(50);
+				
+				Delay.msDelay(delay);
+				
 				distance = checkDistance();
 				
 				String distance_string = String.valueOf(distance);
 				
 				String color = checkColor();
 		
-				LCD.drawString(distance_string, x, y);
-				LCD.drawString(color, x, y_2);
-			} while (distance > max_dist );
+				LCD.drawString(distance_string, x_display, y_displayDistance);
+				LCD.drawString(color, x_display, y_displayColor);
+			}
 		
 		}
 		
 		rightMotor.close();
 		leftMotor.close();
-
+		
 	}
+	
 	
 	public static float checkDistance() {
 		
+		// create float array to store distance
 		float dist_value[];
 		dist_value = new float[1];
+		
 		float dist_value_cm;
 		
 		EV3UltrasonicSensor distSens = new EV3UltrasonicSensor(SensorPort.S4);
 		SampleProvider dist = distSens.getDistanceMode();
 
-
 		dist.fetchSample(dist_value, 0);
 		
-		// convert dist_value to cm
-		dist_value_cm = dist_value[0] * 100;
+		dist_value_cm = dist_value[0] * 100; // convert dist_value from m to cm
 		
 		distSens.close(); 
 		
@@ -96,9 +104,7 @@ public class Task_3_3 {
 	
 		// make float to int for switch case 
 		int color_value = (int) color_id[0];
-		
-		System.out.println(color_id[0]);
-		
+				
 		switch (color_value) {
 		
 		case 7:
@@ -108,8 +114,7 @@ public class Task_3_3 {
 		case 2:
 			color = "BLUE";
 			break;
-			
-			
+					
 		case -1:
 			color = "NONE";
 			break;
@@ -117,18 +122,15 @@ public class Task_3_3 {
 		case 0:
 			color = "RED";
 			break;
-			
-			
+					
 		case 3:
 			color = "YELLOW";
 			break;		
 		}
 		
-		
 		colSens.close();
 		return color;
-		
-		
+			
 	}
 
 }
