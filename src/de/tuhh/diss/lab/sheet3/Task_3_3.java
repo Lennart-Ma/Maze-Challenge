@@ -12,6 +12,12 @@ import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
 
 public class Task_3_3 {
+	
+	final static int DISPLAY_X = 0;			// set layout
+	final static int DISPLAY_DISTANCE_Y = 5;
+	final static int DISPLAY_COLOR_Y = 6;
+	final static float MINIMUM_DISTANCE = 5;	// in cm
+	final static int DELAY = 5; 			// in milliseconds
 
 	public static void main(String[] args) {
 				
@@ -24,14 +30,9 @@ public class Task_3_3 {
 		
         int rightMotorSpeed = 500;
 		int leftMotorSpeed = 500;
-		int x_display = 0;
-		int y_displayDistance = 5;
-		int y_displayColor = y_displayDistance + 1;
-		int delay = 5; // in milliseconds
-		float minDist = 5; //in cm
-		float distance = checkDistance();
+
 		
-		var rightMotor = new EV3LargeRegulatedMotor(MotorPort.C);
+		var rightMotor = new  EV3LargeRegulatedMotor(MotorPort.C);
 		var leftMotor = new EV3LargeRegulatedMotor(MotorPort.B);
 		
 		rightMotor.setSpeed(rightMotorSpeed);
@@ -41,20 +42,11 @@ public class Task_3_3 {
 		switch (Button.waitForAnyPress()) {
 		
 		case 1:
-			while (distance > minDist ) {
+			while (checkDistance() > MINIMUM_DISTANCE ) {
 				rightMotor.backward();
 				leftMotor.backward();
-				
-				Delay.msDelay(delay);
-				
-				distance = checkDistance();
-				
-				String distance_string = String.valueOf(distance);
-				
-				String color = checkColor();
-		
-				LCD.drawString(distance_string, x_display, y_displayDistance);
-				LCD.drawString(color, x_display, y_displayColor);
+				Delay.msDelay(DELAY);
+				displayValues(checkColor(), checkDistance());
 			}
 		
 		}
@@ -132,5 +124,16 @@ public class Task_3_3 {
 		return color;
 			
 	}
+	
+	public static void displayValues (String color, float dist) {
+		
+		String distance_string = String.valueOf(dist);
+
+		LCD.drawString(distance_string, DISPLAY_X , DISPLAY_DISTANCE_Y);
+		LCD.drawString(color, DISPLAY_X, DISPLAY_COLOR_Y);	
+		
+	}
+	
+	
 
 }
