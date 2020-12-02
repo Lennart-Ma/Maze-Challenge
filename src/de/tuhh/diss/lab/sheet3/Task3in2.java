@@ -4,7 +4,7 @@ import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.robotics.SampleProvider;
 
-public class Task_3_2 {
+public class Task3in2 {
 
 	public static void main(String[] args) {
 		

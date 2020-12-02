@@ -6,7 +6,7 @@ import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.*;
 
-public class Task_3_1 {
+public class Task3in1 {
 
 	public static void main(String[] args) {
 

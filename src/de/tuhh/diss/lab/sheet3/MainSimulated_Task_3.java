@@ -16,7 +16,7 @@ public class MainSimulated_Task_3 {
 		
 		
 		
-		Task_3_3.main(args);
+		Task3in3.main(args);
 
 
 		
