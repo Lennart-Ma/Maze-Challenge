@@ -1,0 +1,8 @@
+Found Issues:
+- magic numbers (line 103ff): if IDs of API change, your method is wrong. Use the enums of Color class instead.
+Comments:
+- don't call main-method of other classes; Task3in3.main() does not tell whats happening
+- line 71+72: why seperate variable declaration and definition?
+- switch-case in approachWall is not needed and only bloats code.
+Points:
+2/2
