@@ -10,30 +10,33 @@ public class SimpleTurner implements Turner {
 	private int degreesPerSecond;
 	private static final int WHEELRADIUS = 54/2; //in mm
 	private static final double TURNINGCIRCLE = 397.41; //in mm
-	
+
 	public SimpleTurner(RegulatedMotor leftMotor, RegulatedMotor rightMotor) {
-		this.leftMotor = leftMotor;
-		this.rightMotor = rightMotor;
+		this.setLeftMotor(leftMotor);
+		this.setRightMotor(rightMotor);
 	}
 	
 	
 	public void setSpeed(int degreesPerSecond) {
 		this.degreesPerSecond = 1000*degreesPerSecond;
-		rightMotor.setSpeed(this.degreesPerSecond);
-		leftMotor.setSpeed(this.degreesPerSecond);
+		getRightMotor().setSpeed(this.degreesPerSecond);
+		getLeftMotor().setSpeed(this.degreesPerSecond);
 	}
 
 	public void turn(int rotationAngle) {
-
+		
 		int motorDegree = getMotorDegree(rotationAngle);
 			
 		int delay_time = (int)((motorDegree/degreesPerSecond)*1000);
 		System.out.println(delay_time);
 		
 		Delay.msDelay(2000);
-	
-		rightMotor.rotate(motorDegree,true);
-		leftMotor.rotate(-motorDegree,true);
+		
+		if (rotationAngle < 0) {
+			motorDegree = (-1)*motorDegree;
+		}	
+		getRightMotor().rotate(motorDegree,true);
+		getLeftMotor().rotate(-motorDegree,true);
 		Delay.msDelay(delay_time);
 		System.out.println("Done");
 
@@ -59,5 +62,27 @@ public class SimpleTurner implements Turner {
 		return alphaMotorPerMotor;
 		
 	}
+	
+	
+	public RegulatedMotor getLeftMotor() {
+		return leftMotor;
+	}
+
+
+	public void setLeftMotor(RegulatedMotor leftMotor) {
+		this.leftMotor = leftMotor;
+	}
+
+
+	public RegulatedMotor getRightMotor() {
+		return rightMotor;
+	}
+
+
+	public void setRightMotor(RegulatedMotor rightMotor) {
+		this.rightMotor = rightMotor;
+	}
+
+
 
 }
