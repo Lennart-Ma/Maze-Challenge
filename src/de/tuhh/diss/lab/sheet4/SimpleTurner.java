@@ -7,9 +7,9 @@ public class SimpleTurner implements Turner {
 	
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
-	private double degreesPerSecond;
-	private static final int WHEELDIAMETER = 54/2; //in mm
-	private static final double TURNINGCIRCLE = 385.41; //in mm
+	private int degreesPerSecond;
+	private static final int WHEELRADIUS = 54/2; //in mm
+	private static final double TURNINGCIRCLE = 397.41; //in mm
 	
 	public SimpleTurner(RegulatedMotor leftMotor, RegulatedMotor rightMotor) {
 		this.leftMotor = leftMotor;
@@ -18,14 +18,14 @@ public class SimpleTurner implements Turner {
 	
 	
 	public void setSpeed(int degreesPerSecond) {
-		this.degreesPerSecond = degreesPerSecond;
-		rightMotor.setSpeed(degreesPerSecond);
-		leftMotor.setSpeed(degreesPerSecond);	
+		this.degreesPerSecond = 1000*degreesPerSecond;
+		rightMotor.setSpeed(this.degreesPerSecond);
+		leftMotor.setSpeed(this.degreesPerSecond);
 	}
 
-	public void turn(int circleDegree) {
+	public void turn(int rotationAngle) {
 
-		int motorDegree = getMotorDegree(circleDegree);
+		int motorDegree = getMotorDegree(rotationAngle);
 			
 		int delay_time = (int)((motorDegree/degreesPerSecond)*1000);
 		System.out.println(delay_time);
@@ -45,7 +45,7 @@ public class SimpleTurner implements Turner {
 		double distanceWheel = ((circleDegree* TURNINGCIRCLE)/360);
 		System.out.println(distanceWheel);
 		
-		double alphaWheel = (distanceWheel/(2*Math.PI*WHEELDIAMETER))*360;
+		double alphaWheel = (distanceWheel/(2*Math.PI*WHEELRADIUS))*360;
 		System.out.println(alphaWheel);
 		
 		double alphaMotor = 3*alphaWheel;

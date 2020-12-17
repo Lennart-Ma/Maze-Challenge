@@ -12,7 +12,7 @@ import lejos.robotics.RegulatedMotor;
 
 public class Robot {
 		
-	public static void turn(int degrees, int degreesPerSecond, Turner t) {
+	public static void turnRobot(int degrees, int degreesPerSecond, Turner t) {
 		t.setSpeed(degreesPerSecond);
 		t.turn(degrees);
 	}
@@ -31,12 +31,12 @@ public class Robot {
 		RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.C);
 		RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.B);
 		
-		int degreesPerSecond = 1000;
-		int degrees = 90;
+		int degreesPerSecond = 1;
+		int rotationAngle = 360;
 		int turner_id = 0;
 		
 		Turner[] turner = { new SimpleTurner(rightMotor, leftMotor) };
-		turn(degrees, degreesPerSecond, turner[turner_id]);
+		turnRobot(rotationAngle, degreesPerSecond, turner[turner_id]);
 		
 		
 		Delay.msDelay(100);
