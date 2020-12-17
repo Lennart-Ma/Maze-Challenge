@@ -31,19 +31,19 @@ public class Robot {
 		// ggf. als einzelne Methode ausgliedern???
 		RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.C);
 		RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.B);
-		EV3GyroSensor gyrSens = new EV3GyroSensor(SensorPort.S2);
+		//EV3GyroSensor gyrSens = new EV3GyroSensor(SensorPort.S2);
 		
 		
 
 
 				
 		int degreesPerSecond = 1;
-		int rotationAngle = 360;
-		int turner_id = 1;
-		
-		Turner[] turner = { new SimpleTurner(rightMotor, leftMotor), new GyroscopeTurner(rightMotor, leftMotor, gyrSens) };
+		int rotationAngle = -90;
+		int turner_id = 0;
+		//, new GyroscopeTurner(rightMotor, leftMotor, gyrSens) 
+		Turner[] turner = { new SimpleTurner(rightMotor, leftMotor)};
 		turnRobot(rotationAngle, degreesPerSecond, turner[turner_id]);
-		gyrSens.close();
+		//gyrSens.close();
 		
 		Delay.msDelay(100);
 		sim.stopSimulation();
