@@ -39,14 +39,15 @@ public class Robot {
 
 				
 		int degreesPerSecond = 1;
-		int rotationAngle = 180;
+		int rotationAngle = 90;
 		int turner_id = 1;
 		 
 		Turner[] turner = { new SimpleTurner(rightMotor, leftMotor), new GyroscopeTurner(rightMotor, leftMotor, gyrSens)};
 		turnRobot(rotationAngle, degreesPerSecond, turner[turner_id]);
-		gyrSens.close();
+
 		
 		Delay.msDelay(100);
+		gyrSens.close();
 		sim.stopSimulation();
 	}
 
