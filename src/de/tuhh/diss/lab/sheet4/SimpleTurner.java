@@ -33,10 +33,13 @@ public class SimpleTurner implements Turner {
 		Delay.msDelay(2000);
 		
 		if (rotationAngle < 0) {
-			motorDegree = (-1)*motorDegree;
-		}	
-		getRightMotor().rotate(motorDegree,true);
-		getLeftMotor().rotate(-motorDegree,true);
+			getRightMotor().rotate(-motorDegree,true);
+			getLeftMotor().rotate(motorDegree,true);
+			
+		}else {
+			getRightMotor().rotate(motorDegree,true);
+			getLeftMotor().rotate(-motorDegree,true);
+		}
 		Delay.msDelay(delay_time);
 		System.out.println("Done");
 

@@ -43,12 +43,12 @@ public class GyroscopeTurner extends SimpleTurner implements Turner {
 	
 	public void turn(int degrees) {
 		if (degrees>=0) {			
-			while (getAngle() > degrees) {
+			while (getAngle() < degrees) {
 				getRightMotor().backward();
 				getLeftMotor().forward();
 			}
 		}else {
-			while (getAngle() > degrees) {
+			while (getAngle() < degrees) {
 				getRightMotor().forward();
 				getLeftMotor().backward();
 			}

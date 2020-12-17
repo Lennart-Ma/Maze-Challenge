@@ -7,6 +7,7 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3GyroSensor;
+import lejos.hardware.sensor.SensorMode;
 import lejos.robotics.RegulatedMotor;
 
 
@@ -31,19 +32,19 @@ public class Robot {
 		// ggf. als einzelne Methode ausgliedern???
 		RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.C);
 		RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.B);
-		//EV3GyroSensor gyrSens = new EV3GyroSensor(SensorPort.S2);
+		EV3GyroSensor gyrSens = new EV3GyroSensor(SensorPort.S3);
 		
 		
 
 
 				
 		int degreesPerSecond = 1;
-		int rotationAngle = -90;
-		int turner_id = 0;
-		//, new GyroscopeTurner(rightMotor, leftMotor, gyrSens) 
-		Turner[] turner = { new SimpleTurner(rightMotor, leftMotor)};
+		int rotationAngle = 180;
+		int turner_id = 1;
+		 
+		Turner[] turner = { new SimpleTurner(rightMotor, leftMotor), new GyroscopeTurner(rightMotor, leftMotor, gyrSens)};
 		turnRobot(rotationAngle, degreesPerSecond, turner[turner_id]);
-		//gyrSens.close();
+		gyrSens.close();
 		
 		Delay.msDelay(100);
 		sim.stopSimulation();
