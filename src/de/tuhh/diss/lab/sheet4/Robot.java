@@ -13,13 +13,31 @@ import lejos.robotics.RegulatedMotor;
 
 
 public class Robot {
+	
+	private static RegulatedMotor leftMotor;
+	private static RegulatedMotor rightMotor;
+	private static EV3GyroSensor gyrSens;
+	private static int degreesPerSecond;
+	private static int rotationAngle;
+	private static int turner_id;
+	
+	private static void initializeHardware() {
+		Robot.rightMotor = new EV3LargeRegulatedMotor(MotorPort.C);
+		Robot.leftMotor = new EV3LargeRegulatedMotor(MotorPort.B);
+		Robot.gyrSens = new EV3GyroSensor(SensorPort.S3);
+	}
+	
+	private static void setParameter(int degreesPerSecond, int rotationAngle, int turner_id) {
+		Robot.degreesPerSecond = degreesPerSecond;
+		Robot.rotationAngle = rotationAngle;
+		Robot.turner_id = turner_id;		
+	}
 		
 	public static void turnRobot(int degrees, int degreesPerSecond, Turner t) {
 		t.setSpeed(degreesPerSecond);
 		t.turn(degrees);
 	}
-	
-	
+
 	public static void main(String[] args) {
 		MazebotSimulation sim = new MazebotSimulation("Mazes/TestArea.png", 1.8 , 1.45);
 		GuiMazeVisualization gui = new GuiMazeVisualization(1.5, sim.getStateAccessor());
@@ -29,19 +47,10 @@ public class Robot {
 		sim.startSimulation();
 		gui.startVisualization();
 		
-		// ggf. als einzelne Methode ausgliedern???
-		RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.C);
-		RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.B);
-		EV3GyroSensor gyrSens = new EV3GyroSensor(SensorPort.S3);
-		
-						
-		int degreesPerSecond = 1000;
-		int rotationAngle = -180;
-		int turner_id = 1;
-		 
+		initializeHardware();
+		setParameter(1000,720,1);
 		Turner[] turner = { new SimpleTurner(rightMotor, leftMotor), new GyroscopeTurner(rightMotor, leftMotor, gyrSens)};
 		turnRobot(rotationAngle, degreesPerSecond, turner[turner_id]);
-
 		
 		Delay.msDelay(100);
 		gyrSens.close();

@@ -7,11 +7,13 @@ import lejos.hardware.sensor.EV3GyroSensor;
 
 public class GyroscopeTurner implements Turner {
 
+	static final double E = 5; //in deg, epsilon 
+
 	private int degreesPerSecond;
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
-	static final double E = 5; //in deg, epsilon 
-	EV3GyroSensor gyrSens;
+	private EV3GyroSensor gyrSens;
+	
 
 	public GyroscopeTurner(RegulatedMotor leftMotor, RegulatedMotor rightMotor, EV3GyroSensor gyrSens) {
 		
@@ -21,36 +23,79 @@ public class GyroscopeTurner implements Turner {
 		Delay.msDelay(750);
 		this.gyrSens.reset();
 		Delay.msDelay(750);		
-		System.out.println("initVal: " + getAngle());								//state initial sensor value
+		System.out.println("initVal: " + getAngle());                   //state initial sensor value
 	}
 
 	
-	public float getAngle () {
+	private float getAngle () {
 		
 		float angleValue[] = new float[1];
 		SampleProvider angle = gyrSens.getAngleMode();
 		angle.fetchSample(angleValue, 0);
-		System.out.println(angleValue[0]);											//state sensor value
+		System.out.println(angleValue[0]);                              //state sensor value
 		return Math.abs(angleValue[0]);	 
 	}
 	
 	
-	public double calcDelta (int deg) {
+	private double calcDelta (int deg) {
+		
 		if (deg>0) return -deg + getAngle();
 		else return deg + getAngle();
 	}
 
+
+	
+	private void turnCW(int deg) {
+		
+		leftMotor.backward();
+		rightMotor.forward();
+		while (calcDelta(deg) < E) {
+			Delay.msDelay(5);
+			System.out.println("deltaN: " + calcDelta(deg));             //state delta
+			if(calcDelta(deg) > -5*E){
+				setSpeed((int)0.9*this.degreesPerSecond);
+				System.out.println("speed: " + this.degreesPerSecond);   //state regulated speed
+			}
+			if (calcDelta(deg)==0)break;
+		}
+		if (calcDelta(deg)<E) {
+			rightMotor.stop();
+			leftMotor.stop();
+			System.out.println("STOPPED MOTOR");                         //state motor state
+		}
+	}
+	
+	private void turnCCW(int deg) {
+
+		rightMotor.backward();
+		leftMotor.forward();
+		while (calcDelta(deg) < E) { 
+			Delay.msDelay(5);
+			System.out.println("deltaP: " + calcDelta(deg));              //state delta
+			if(calcDelta(deg) > -5*E ) {
+				setSpeed((int)0.9*this.degreesPerSecond);
+				System.out.println("speed: " + this.degreesPerSecond);    //state regulated speed -> 0???
+			}
+			if (calcDelta(deg) == 0)break;
+		}
+		if (calcDelta(deg)<E) {
+			rightMotor.stop();
+			leftMotor.stop();
+			System.out.println("STOPPED MOTOR");                          //state motor state
+		}
+	}
+	
 	
 	public void turn(int degrees) {
 
-		System.out.println("deg: " + degrees); 										//state desired degree of turn
+		System.out.println("deg: " + degrees);                            //state desired degree of turn
 		if (degrees>0) {
 			turnCCW(degrees);
 		}
 		else if(degrees<0){
 			turnCW(degrees);
 		}
-		System.out.println("final angle" + getAngle());								//state final angle
+		System.out.println("final angle" + getAngle());                   //state final angle
 	}
 
 	
@@ -59,47 +104,6 @@ public class GyroscopeTurner implements Turner {
 		this.degreesPerSecond = degreesPerSecond;
 		rightMotor.setSpeed(this.degreesPerSecond);
 		leftMotor.setSpeed(this.degreesPerSecond);		
-	}
-
-	
-	public void turnCW(int deg) {
-		
-		leftMotor.backward();
-		rightMotor.forward();
-		while (calcDelta(deg) < E) {
-			Delay.msDelay(5);
-			System.out.println("deltaN: " + calcDelta(deg)); 						//state delta
-			if(calcDelta(deg) > -5*E){
-				setSpeed((int)0.9*this.degreesPerSecond);
-				System.out.println("speed: " + this.degreesPerSecond);				//state regulated speed
-			}
-			if (calcDelta(deg)==0)break;
-		}
-		if (calcDelta(deg)<E) {
-			rightMotor.stop();
-			leftMotor.stop();
-			System.out.println("STOPPED MOTOR");									//state motor state
-		}
-	}
-	
-	public void turnCCW(int deg) {
-
-		rightMotor.backward();
-		leftMotor.forward();
-		while (calcDelta(deg) < E) { 
-			Delay.msDelay(5);
-			System.out.println("deltaP: " + calcDelta(deg));						//state delta
-			if(calcDelta(deg) > -5*E ) {
-				setSpeed((int)0.9*this.degreesPerSecond);
-				System.out.println("speed: " + this.degreesPerSecond);				//state regulated speed -> 0???
-			}
-			if (calcDelta(deg) == 0)break;
-		}
-		if (calcDelta(deg)<E) {
-			rightMotor.stop();
-			leftMotor.stop();
-			System.out.println("STOPPED MOTOR");									//state motor state
-		}
 	}
 }
 	
