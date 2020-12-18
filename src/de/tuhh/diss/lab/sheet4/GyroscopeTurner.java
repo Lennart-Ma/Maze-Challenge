@@ -10,10 +10,8 @@ public class GyroscopeTurner implements Turner {
 	private int degreesPerSecond;
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
-	static final double E = 5; //in deg
+	static final double E = 5; //in deg, epsilon 
 	EV3GyroSensor gyrSens;
-
-	
 
 	public GyroscopeTurner(RegulatedMotor leftMotor, RegulatedMotor rightMotor, EV3GyroSensor gyrSens) {
 		
@@ -23,63 +21,36 @@ public class GyroscopeTurner implements Turner {
 		Delay.msDelay(750);
 		this.gyrSens.reset();
 		Delay.msDelay(750);		
-		System.out.println("initVal: " + getAngle());									//debug
-
+		System.out.println("initVal: " + getAngle());								//state initial sensor value
 	}
+
 	
 	public float getAngle () {
 		
 		float angleValue[] = new float[1];
 		SampleProvider angle = gyrSens.getAngleMode();
 		angle.fetchSample(angleValue, 0);
-		System.out.println(angleValue[0]);												//debug
+		System.out.println(angleValue[0]);											//state sensor value
 		return Math.abs(angleValue[0]);	 
 	}
 	
 	
+	public double calcDelta (int deg) {
+		if (deg>0) return -deg + getAngle();
+		else return deg + getAngle();
+	}
+
+	
 	public void turn(int degrees) {
 
-		System.out.println("deg: " + degrees); 											//debug
-
-
-		if (degrees>0) {			
-			rightMotor.backward();
-			leftMotor.forward();
-			while ((degrees-getAngle())>(-E)) { 
-				Delay.msDelay(5);
-				System.out.println("deltaP: " + (degrees-getAngle()));					//debug
-				if((degrees+getAngle()) < 5*E ) {
-					setSpeed((int)0.9*this.degreesPerSecond);
-					System.out.println("speed: " + this.degreesPerSecond);				//debug
-				}
-				if ((degrees+getAngle())==0)break;
-			}
-			if ((degrees-getAngle())<E) {
-				rightMotor.stop();
-				leftMotor.stop();
-				System.out.println("STOPPED MOTOR");									//debug
-				}
-			
-		}else if(degrees<0){
-			leftMotor.backward();
-			rightMotor.forward();
-			while ((degrees+getAngle())<E) {
-				Delay.msDelay(5);
-				System.out.println("deltaN: " + (degrees+getAngle())); 					//debug
-				if((degrees+getAngle()) > -5*E ) {
-					setSpeed((int)0.9*this.degreesPerSecond);
-					System.out.println("speed: " + this.degreesPerSecond);				//debug
-				}
-				if ((degrees+getAngle())==0)break;
-			}
-			if ((degrees+getAngle())<E) {
-				rightMotor.stop();
-				leftMotor.stop();
-				System.out.println("STOPPED MOTOR");									//debug
-			}
+		System.out.println("deg: " + degrees); 										//state desired degree of turn
+		if (degrees>0) {
+			turnCCW(degrees);
 		}
-		
-		System.out.println("final angle" + getAngle());
+		else if(degrees<0){
+			turnCW(degrees);
+		}
+		System.out.println("final angle" + getAngle());								//state final angle
 	}
 
 	
@@ -87,9 +58,48 @@ public class GyroscopeTurner implements Turner {
 		
 		this.degreesPerSecond = degreesPerSecond;
 		rightMotor.setSpeed(this.degreesPerSecond);
-		leftMotor.setSpeed(this.degreesPerSecond);
-
-		
+		leftMotor.setSpeed(this.degreesPerSecond);		
 	}
 
+	
+	public void turnCW(int deg) {
+		
+		leftMotor.backward();
+		rightMotor.forward();
+		while (calcDelta(deg) < E) {
+			Delay.msDelay(5);
+			System.out.println("deltaN: " + calcDelta(deg)); 						//state delta
+			if(calcDelta(deg) > -5*E){
+				setSpeed((int)0.9*this.degreesPerSecond);
+				System.out.println("speed: " + this.degreesPerSecond);				//state regulated speed
+			}
+			if (calcDelta(deg)==0)break;
+		}
+		if (calcDelta(deg)<E) {
+			rightMotor.stop();
+			leftMotor.stop();
+			System.out.println("STOPPED MOTOR");									//state motor state
+		}
+	}
+	
+	public void turnCCW(int deg) {
+
+		rightMotor.backward();
+		leftMotor.forward();
+		while (calcDelta(deg) < E) { 
+			Delay.msDelay(5);
+			System.out.println("deltaP: " + calcDelta(deg));						//state delta
+			if(calcDelta(deg) > -5*E ) {
+				setSpeed((int)0.9*this.degreesPerSecond);
+				System.out.println("speed: " + this.degreesPerSecond);				//state regulated speed -> 0???
+			}
+			if (calcDelta(deg) == 0)break;
+		}
+		if (calcDelta(deg)<E) {
+			rightMotor.stop();
+			leftMotor.stop();
+			System.out.println("STOPPED MOTOR");									//state motor state
+		}
+	}
 }
+	

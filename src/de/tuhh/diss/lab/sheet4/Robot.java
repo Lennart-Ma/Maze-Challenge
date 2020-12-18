@@ -34,12 +34,9 @@ public class Robot {
 		RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.B);
 		EV3GyroSensor gyrSens = new EV3GyroSensor(SensorPort.S3);
 		
-		
-
-
-				
+						
 		int degreesPerSecond = 1000;
-		int rotationAngle = 90;
+		int rotationAngle = -180;
 		int turner_id = 1;
 		 
 		Turner[] turner = { new SimpleTurner(rightMotor, leftMotor), new GyroscopeTurner(rightMotor, leftMotor, gyrSens)};
