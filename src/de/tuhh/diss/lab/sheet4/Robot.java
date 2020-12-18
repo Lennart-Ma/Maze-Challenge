@@ -38,7 +38,7 @@ public class Robot {
 
 
 				
-		int degreesPerSecond = 1;
+		int degreesPerSecond = 1000;
 		int rotationAngle = 90;
 		int turner_id = 1;
 		 
