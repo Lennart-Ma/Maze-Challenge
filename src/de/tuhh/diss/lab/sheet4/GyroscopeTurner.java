@@ -23,7 +23,6 @@ public class GyroscopeTurner implements Turner {
 		Delay.msDelay(750);
 		this.gyrSens.reset();
 		Delay.msDelay(750);		
-		System.out.println("initVal: " + getAngle());                   //state initial sensor value
 	}
 
 	
@@ -42,60 +41,53 @@ public class GyroscopeTurner implements Turner {
 		if (deg>0) return -deg + getAngle();
 		else return deg + getAngle();
 	}
-
-
+	
 	
 	private void turnCW(int deg) {
 		
-		leftMotor.backward();
-		rightMotor.forward();
-		while (calcDelta(deg) < E) {
-			Delay.msDelay(5);
-			System.out.println("deltaN: " + calcDelta(deg));             //state delta
-			if(calcDelta(deg) > -5*E){
-				setSpeed((int)0.9*this.degreesPerSecond);
-				System.out.println("speed: " + this.degreesPerSecond);   //state regulated speed
-			}
-			if (calcDelta(deg)==0)break;
-		}
-		if (calcDelta(deg)<E) {
-			rightMotor.stop();
-			leftMotor.stop();
-			System.out.println("STOPPED MOTOR");                         //state motor state
-		}
-	}
-	
-	private void turnCCW(int deg) {
-
 		rightMotor.backward();
 		leftMotor.forward();
+		controlTurn(deg);
+	}
+	
+	
+	private void turnCCW(int deg) {
+		
+		leftMotor.backward();
+		rightMotor.forward();
+		controlTurn(deg);
+	}
+	
+	
+	private void controlTurn(int deg) {
+		
 		while (calcDelta(deg) < E) { 
 			Delay.msDelay(5);
-			System.out.println("deltaP: " + calcDelta(deg));              //state delta
 			if(calcDelta(deg) > -5*E ) {
 				setSpeed((int)0.9*this.degreesPerSecond);
-				System.out.println("speed: " + this.degreesPerSecond);    //state regulated speed -> 0???
 			}
 			if (calcDelta(deg) == 0)break;
 		}
 		if (calcDelta(deg)<E) {
 			rightMotor.stop();
 			leftMotor.stop();
-			System.out.println("STOPPED MOTOR");                          //state motor state
+			System.out.println("STOPPED MOTOR");                              //state motor state
 		}
 	}
 	
 	
 	public void turn(int degrees) {
 
-		System.out.println("deg: " + degrees);                            //state desired degree of turn
 		if (degrees>0) {
 			turnCCW(degrees);
+			System.out.println("final angle: " + getAngle());                 //state final angle
+
 		}
 		else if(degrees<0){
 			turnCW(degrees);
+			System.out.println("final angle: " + -getAngle());                //state final angle
+
 		}
-		System.out.println("final angle" + getAngle());                   //state final angle
 	}
 
 	
