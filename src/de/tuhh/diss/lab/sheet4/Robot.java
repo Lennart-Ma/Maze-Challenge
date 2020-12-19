@@ -47,8 +47,9 @@ public class Robot {
 		gui.startVisualization();
 		
 		initializeHardware();
-		setParameter(1000,-90,0);
-		Turner[] turner = { new SimpleTurner(rightMotor, leftMotor), new GyroscopeTurner(rightMotor, leftMotor, gyrSens)};
+		setParameter(1000,-90,1);                                                                      // set turner_id to 0 to use SimpleTurner, 1 to use GyroTurner
+		Turner[] turner = { new SimpleTurner(rightMotor, leftMotor),
+		                    new GyroscopeTurner(rightMotor, leftMotor, gyrSens)};
 		turnRobot(rotationAngle, degreesPerSecond, turner[turner_id]);
 		
 		Delay.msDelay(100);
