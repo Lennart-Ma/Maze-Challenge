@@ -7,7 +7,7 @@ import lejos.hardware.sensor.EV3GyroSensor;
 
 public class GyroscopeTurner implements Turner {
 
-	static final double E = 5; //in deg, epsilon 
+	private static final double E = 5; //in deg, epsilon 
 
 	private int degreesPerSecond;
 	private RegulatedMotor leftMotor;
