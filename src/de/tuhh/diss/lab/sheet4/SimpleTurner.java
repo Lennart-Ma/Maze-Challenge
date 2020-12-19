@@ -49,9 +49,9 @@ public class SimpleTurner implements Turner {
 
 	}
 	
-	private int getMotorDegree(int circleDegree) {
+	private int getMotorDegree(int rotationAngle) {
 		
-		double distanceWheel = ((circleDegree* TURNINGCIRCLE)/360);
+		double distanceWheel = ((rotationAngle* TURNINGCIRCLE)/360);
 	
 		double alphaWheel = (distanceWheel/(2*Math.PI*WHEELRADIUS))*360;
 		
