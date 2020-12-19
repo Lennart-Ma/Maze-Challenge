@@ -7,7 +7,7 @@ import lejos.hardware.sensor.EV3GyroSensor;
 
 public class GyroscopeTurner implements Turner {
 
-	static final double E = 5; //in deg, epsilon 
+	static final double E = 5;                                         //epsilon (deg) 
 
 	private int degreesPerSecond;
 	private RegulatedMotor leftMotor;
@@ -63,10 +63,10 @@ public class GyroscopeTurner implements Turner {
 		
 		while (calcDelta(deg) < E) { 
 			Delay.msDelay(5);
-			if(calcDelta(deg) > -5*E ) {
+			if(calcDelta(deg) > -5*E ) {                                     //5*espilon interval set to decrease speed when reached
 				setSpeed((int)0.9*this.degreesPerSecond);
 			}
-			if (calcDelta(deg) == 0)break;
+			if (calcDelta(deg) == 0)break;                                   //the loop is not breaking without this statement
 		}
 		if (calcDelta(deg)<E) {
 			rightMotor.stop();
