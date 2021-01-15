@@ -6,7 +6,7 @@ import lejos.hardware.lcd.LCD;
 
 public class RobotStarter implements Starter {
 	
-	private String menu;
+	private String menu;									// Make sure which variables can be 
 	private int menuPosY;
 	private String colorOne;
 	private int colorOnePosY;
