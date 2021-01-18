@@ -46,8 +46,6 @@ private static final double E = 5; //in deg, epsilon
 	
 	private void turnCW(int deg) {
 		
-		System.out.println("turnCW");                              //state sensor value
-
 		rightMotor.backward();
 		leftMotor.forward();
 		controlTurn(deg);

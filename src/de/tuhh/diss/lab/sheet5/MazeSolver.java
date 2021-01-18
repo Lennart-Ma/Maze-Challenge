@@ -37,8 +37,8 @@ public class MazeSolver {
 		foundColor = colorDetector.getColor();
 		colorFound = false;
 		
-		System.out.println("Found Color" + foundColor);                              //state sensor value
-		System.out.println("Found Color" + wantedColor);                              //state sensor value
+		System.out.println("Found Color: " + foundColor);                              //state sensor value
+		System.out.println("Found Color: " + wantedColor);                              //state sensor value
 
 		
 		if (foundColor == wantedColor) {
@@ -47,14 +47,18 @@ public class MazeSolver {
 		} else {
 			System.out.println("in 1st else");                              //state sensor value
 			turner.turn(-90,1000);								//turnCCW hardcoded, constant ?? wie machen?
-			System.out.println("in 1st else");                              //state sensor value
+			//approach Wall
 			foundColor = colorDetector.getColor();			//kein Zugriff auf turnCW oder CCW da sonst direkter Zugriff auf leftMotor,rightMotor
+			System.out.println("Found Color: " + foundColor);                              //state sensor value
+			//deproach Wall
+			Delay.msDelay(5000);
 			if (foundColor == wantedColor) {
 				simpleBeeper.playBeep();
 				colorFound = true;
 			} else if (foundColor == "NONE") {
 				driver.driveForward();
 			} else {
+				System.out.println("in 2st else");                              //state sensor value
 				turner.turn(90,1000);							//turnCW
 				foundColor = colorDetector.getColor();
 				if (foundColor == "NONE") {
