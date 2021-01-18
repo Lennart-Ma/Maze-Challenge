@@ -83,6 +83,8 @@ private static final double E = 5; //in deg, epsilon
 	
 	private void setSpeed(int degreesPerSecond) {
 		
+		this.degreesPerSecond = degreesPerSecond;
+		
 		rightMotor.setSpeed(this.degreesPerSecond);
 		leftMotor.setSpeed(this.degreesPerSecond);		
 	}

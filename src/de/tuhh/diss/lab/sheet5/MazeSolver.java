@@ -46,7 +46,7 @@ public class MazeSolver {
 			colorFound = true;
 		} else {
 			System.out.println("in 1st else");                              //state sensor value
-			turner.turn(-90);								//turnCCW hardcoded, constant ?? wie machen?
+			turner.turn(-90,1000);								//turnCCW hardcoded, constant ?? wie machen?
 			System.out.println("in 1st else");                              //state sensor value
 			foundColor = colorDetector.getColor();			//kein Zugriff auf turnCW oder CCW da sonst direkter Zugriff auf leftMotor,rightMotor
 			if (foundColor == wantedColor) {
@@ -55,12 +55,12 @@ public class MazeSolver {
 			} else if (foundColor == "NONE") {
 				driver.driveForward();
 			} else {
-				turner.turn(90);							//turnCW
+				turner.turn(90,1000);							//turnCW
 				foundColor = colorDetector.getColor();
 				if (foundColor == "NONE") {
 					driver.driveForward();
 				} else {
-					turner.turn(90);						//turnCW
+					turner.turn(90,1000);						//turnCW
 				}
 			}
 		}
