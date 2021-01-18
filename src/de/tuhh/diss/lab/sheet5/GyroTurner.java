@@ -8,8 +8,6 @@ import lejos.hardware.sensor.EV3GyroSensor;
 public class GyroTurner implements Turner{
 	
 private static final double E = 5; //in deg, epsilon 
-private static final int ANGULARVELOCITY = 1000;
-
 
 	
 
@@ -83,16 +81,19 @@ private static final int ANGULARVELOCITY = 1000;
 	}
 	
 	
-	private void setSpeed() {
-		rightMotor.setSpeed(ANGULARVELOCITY);
-		leftMotor.setSpeed(ANGULARVELOCITY);		
+	private void setSpeed(int degreesPerSecond) {
+		
+		rightMotor.setSpeed(this.degreesPerSecond);
+		leftMotor.setSpeed(this.degreesPerSecond);		
 	}
 	
 	
-	public void turn(int degrees) {
+	public void turn(int degrees, int degreesPerSecond) {
 
 		System.out.println(degrees);                              //state sensor value
-		setSpeed();
+		this.degreesPerSecond = degreesPerSecond;
+		setSpeed(this.degreesPerSecond);
+
 		
 		if (degrees>0) {
 			turnCCW(degrees);

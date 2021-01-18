@@ -1,5 +1,5 @@
 package de.tuhh.diss.lab.sheet5;
 
 public interface Turner {
-	public void turn(int degrees);
+	public void turn(int degrees, int degreesPerSecond);
 }
