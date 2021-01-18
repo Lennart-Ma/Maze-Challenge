@@ -5,6 +5,8 @@ import MazebotSim.Visualization.GuiMazeVisualization;
 import lejos.utility.Delay;
 
 public class MazeSolver {
+
+
 	
 	private static String wantedColor;
 	private static String foundColor;
@@ -13,7 +15,7 @@ public class MazeSolver {
 	private static SimpleBeeper simpleBeeper;
 	private static ColorDetector colorDetector;
 	private static GyroTurner turner;
-	private static ForwardDriver driver; 
+	private static Drive driver; 
 	
 	
 	private static boolean solvingMaze() {
@@ -25,20 +27,20 @@ public class MazeSolver {
 			simpleBeeper.playBeep();
 			colorFound = true;
 		} else {
-			turner.turnCCW();
-			foundColor = colorDetector.getColor();
+			turner.turn(-90);								//turnCCW hardcoded, constant ?? wie machen?
+			foundColor = colorDetector.getColor();			//kein Zugriff auf turnCW oder CCW da sonst direkter Zugriff auf leftMotor,rightMotor
 			if (foundColor == wantedColor) {
 				simpleBeeper.playBeep();
 				colorFound = true;
 			} else if (foundColor == "None") {
 				driver.driveForward();
 			} else {
-				turner.turnCW();
+				turner.turn(90);							//turnCW
 				foundColor = colorDetector.getColor();
 				if (foundColor == "None") {
 					driver.driveForward();
 				} else {
-					turner.turnCW();
+					turner.turn(90);						//turnCW
 				}
 			}
 		}
