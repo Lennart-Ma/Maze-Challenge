@@ -9,7 +9,6 @@ public class Drive implements Driver{
 	private RegulatedMotor rightMotor;
 	private int degreesPerSecond;
 	private static final int WHEELDIAMETER = 54; //in mm
-	private static final int TILELENGTH = 350; //in mm
 	private static final int ANGULARVELOCITY = 1000;
 	
 	public Drive(RegulatedMotor leftMotor, RegulatedMotor rightMotor) {
@@ -18,9 +17,9 @@ public class Drive implements Driver{
 	}
 	
 
-	public void driveForward() {
+	public void driveForward(int length) {
 		
-		int motorDegree = setMotorDegree();
+		int motorDegree = setMotorDegree(length);
 		setSpeed();
 		double degreesPerSecond_double = this.degreesPerSecond;
 		double delay_time = (Math.abs(motorDegree)/Math.abs(degreesPerSecond_double))*1000;
@@ -36,9 +35,9 @@ public class Drive implements Driver{
 	}
 	
 	
-	private int setMotorDegree() {
+	private int setMotorDegree(int length) {
 		
-		double alphaWheel = (TILELENGTH/(Math.PI * WHEELDIAMETER)) *360;
+		double alphaWheel = (length/(Math.PI * WHEELDIAMETER)) *360;
 		double alphaMotor = 3*alphaWheel;
 		int alphaMotorPerMotor = (int)alphaMotor*2;
 		
