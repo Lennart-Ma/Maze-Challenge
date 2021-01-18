@@ -8,7 +8,7 @@ public class Drive implements Driver{
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
 	private static final int WHEELDIAMETER = 54; //in mm
-	private static final int ANGULARVELOCITY = 1000;
+	private static final int ANGULARVELOCITY = 1500;
 	
 	public Drive(RegulatedMotor leftMotor, RegulatedMotor rightMotor) {
 		this.leftMotor = leftMotor;

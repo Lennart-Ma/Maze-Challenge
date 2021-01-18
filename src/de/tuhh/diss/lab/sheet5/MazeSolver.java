@@ -25,7 +25,9 @@ public class MazeSolver {
 	private static SimpleBeeper simpleBeeper;
 	private static ColorDetector colorDetector;
 	private static GyroTurner turner;
-	private static Drive driver; 
+	private static Drive driver;
+	private static double frictionCoefficiant=0.015;
+	private static int counter=0;
 	private static final int TILELENGTH = 350/2; //in mm
 
 	
@@ -65,12 +67,12 @@ public class MazeSolver {
 				simpleBeeper.playBeep();
 				colorFound = true;
 			} else if (foundColor == "NONE") {					
-				driver.driveForward(-TILELENGTH);				// drives left if left Wall is not wanted Color but is None (no wall)
+				driver.driveForward((int)(-TILELENGTH*(1-frictionCoefficiant*counter)));				// drives left if left Wall is not wanted Color but is None (no wall)
 				loopOfDeath = true;
 			} else {
 				turner.turn(90,1000);							// turns right relativ, front absolut
 				if (foundColorFront == "NONE") {
-					driver.driveForward(-TILELENGTH);			// drives forward
+					driver.driveForward((int)(-TILELENGTH*(1-frictionCoefficiant*counter)));			// drives forward
 					loopOfDeath = true;
 				} else {
 					turner.turn(90,1000);
@@ -79,13 +81,14 @@ public class MazeSolver {
 			}
 		} else {
 			if (foundColorFront == "NONE") {
-				driver.driveForward(-TILELENGTH);
+				driver.driveForward((int)(-TILELENGTH*(1-frictionCoefficiant*counter)));
 				loopOfDeath = true;
 			} else {
 				turner.turn(90,1000);
 				loopOfDeath = false;
 			}
 		}
+		counter++;
 		return colorFound;
 	}
 
