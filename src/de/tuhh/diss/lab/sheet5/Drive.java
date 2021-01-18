@@ -7,7 +7,6 @@ public class Drive implements Driver{
 	
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
-	private int degreesPerSecond;
 	private static final int WHEELDIAMETER = 54; //in mm
 	private static final int ANGULARVELOCITY = 1000;
 	
@@ -21,17 +20,14 @@ public class Drive implements Driver{
 		
 		int motorDegree = setMotorDegree(length);
 		setSpeed();
-		double degreesPerSecond_double = this.degreesPerSecond;
+		double degreesPerSecond_double = ANGULARVELOCITY;
 		double delay_time = (Math.abs(motorDegree)/Math.abs(degreesPerSecond_double))*1000;
 		int delay_time_int = (int)delay_time;
 		
-		Delay.msDelay(2000);
-
 		this.rightMotor.rotate(motorDegree,true);
 		this.leftMotor.rotate(motorDegree,true);
 
-		Delay.msDelay(delay_time_int);
-		System.out.println("Done");
+		Delay.msDelay(4 * delay_time_int);
 	}
 	
 	

@@ -18,13 +18,15 @@ public class MazeSolver {
 	private static EV3GyroSensor gyrSens;
 	private static String wantedColor;
 	private static String foundColor;
+	private static String foundColorFront;
 	private static boolean colorFound;
+	private static boolean loopOfDeath; 					//is set to false initaly since we dont think that the goal wall will be left to the starting position
 	private static RobotStarter robotStarter;
 	private static SimpleBeeper simpleBeeper;
 	private static ColorDetector colorDetector;
 	private static GyroTurner turner;
 	private static Drive driver; 
-	private static final int TILELENGTH = 350; //in mm
+	private static final int TILELENGTH = 350/2; //in mm
 
 	
 	
@@ -34,40 +36,54 @@ public class MazeSolver {
 		gyrSens = new EV3GyroSensor(SensorPort.S3);
 	}
 	
+	private static String checkWallColor() {
+		driver.driveForward(-45);
+		foundColor = colorDetector.getColor();			    //kein Zugriff auf turnCW oder CCW da sonst direkter Zugriff auf leftMotor,rightMotor
+		driver.driveForward(45);
+		return foundColor;
+	}
+	
 	private static boolean solvingMaze() {
 		
-		foundColor = colorDetector.getColor();
+		foundColorFront = checkWallColor();							//check front wall
 		colorFound = false;
 		
 		System.out.println("Found Color: " + foundColor);                              //state sensor value
-		System.out.println("Found Color: " + wantedColor);                              //state sensor value
+		System.out.println("Wanted Color: " + wantedColor);                              //state sensor value
 
 		
-		if (foundColor == wantedColor) {
+		if (foundColor == wantedColor) {						
 			simpleBeeper.playBeep();
 			colorFound = true;
-		} else {
-			System.out.println("in 1st else");                  //state sensor value
-			turner.turn(-90,1000);								//turnCCW hardcoded, constant ?? wie machen?
-			//approach Wall
-			foundColor = colorDetector.getColor();			    //kein Zugriff auf turnCW oder CCW da sonst direkter Zugriff auf leftMotor,rightMotor
-			System.out.println("Found Color: " + foundColor);   //state sensor value
-			//deproach Wall
-			Delay.msDelay(5000);
+		} else if(loopOfDeath) {
+			System.out.println("in 1st else");                  
+			turner.turn(-90,1000);								
+			foundColor = checkWallColor();						//check left wall
+			System.out.println("Found Color: " + foundColor);   
+			
 			if (foundColor == wantedColor) {
 				simpleBeeper.playBeep();
 				colorFound = true;
-			} else if (foundColor == "NONE") {
-				driver.driveForward();
+			} else if (foundColor == "NONE") {					
+				driver.driveForward(-TILELENGTH);				// drives left if left Wall is not wanted Color but is None (no wall)
+				loopOfDeath = true;
 			} else {
-				System.out.println("in 2st else");              //state sensor value
-				turner.turn(90,1000);							//turnCW
-				foundColor = colorDetector.getColor();
-				if (foundColor == "NONE") {
-					driver.driveForward(TILELENGTH);
+				turner.turn(90,1000);							// turns right relativ, front absolut
+				if (foundColorFront == "NONE") {
+					driver.driveForward(-TILELENGTH);			// drives forward
+					loopOfDeath = true;
 				} else {
-					turner.turn(90,1000);						//turnCW
+					turner.turn(90,1000);
+					loopOfDeath = false;
 				}
+			}
+		} else {
+			if (foundColorFront == "NONE") {
+				driver.driveForward(-TILELENGTH);
+				loopOfDeath = true;
+			} else {
+				turner.turn(90,1000);
+				loopOfDeath = false;
 			}
 		}
 		return colorFound;
@@ -75,7 +91,7 @@ public class MazeSolver {
 
 	public static void main(String[] args) {
 		MazebotSimulation sim = new MazebotSimulation("Mazes/Mazes_4x4_2.png", 1.4 , 1.4);
-		GuiMazeVisualization gui = new GuiMazeVisualization(1.5, sim.getStateAccessor());
+		GuiMazeVisualization gui = new GuiMazeVisualization(1.4, sim.getStateAccessor());
 		sim.scaleSpeed(1);
 		sim.setRobotPosition(0.175, 0.175, 90);
 

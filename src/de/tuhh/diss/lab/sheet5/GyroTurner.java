@@ -75,6 +75,7 @@ private static final double E = 5; //in deg, epsilon
 			rightMotor.stop();
 			leftMotor.stop();
 			System.out.println("STOPPED MOTOR");                              //state motor state
+			gyrSens.reset();
 		}
 	}
 	
