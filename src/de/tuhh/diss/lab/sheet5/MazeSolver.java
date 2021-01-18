@@ -37,21 +37,27 @@ public class MazeSolver {
 		foundColor = colorDetector.getColor();
 		colorFound = false;
 		
+		System.out.println("Found Color" + foundColor);                              //state sensor value
+		System.out.println("Found Color" + wantedColor);                              //state sensor value
+
+		
 		if (foundColor == wantedColor) {
 			simpleBeeper.playBeep();
 			colorFound = true;
 		} else {
+			System.out.println("in 1st else");                              //state sensor value
 			turner.turn(-90);								//turnCCW hardcoded, constant ?? wie machen?
+			System.out.println("in 1st else");                              //state sensor value
 			foundColor = colorDetector.getColor();			//kein Zugriff auf turnCW oder CCW da sonst direkter Zugriff auf leftMotor,rightMotor
 			if (foundColor == wantedColor) {
 				simpleBeeper.playBeep();
 				colorFound = true;
-			} else if (foundColor == "None") {
+			} else if (foundColor == "NONE") {
 				driver.driveForward();
 			} else {
 				turner.turn(90);							//turnCW
 				foundColor = colorDetector.getColor();
-				if (foundColor == "None") {
+				if (foundColor == "NONE") {
 					driver.driveForward();
 				} else {
 					turner.turn(90);						//turnCW
@@ -62,10 +68,10 @@ public class MazeSolver {
 	}
 
 	public static void main(String[] args) {
-		MazebotSimulation sim = new MazebotSimulation("Mazes/TestArea.png", 1.8 , 1.45);
+		MazebotSimulation sim = new MazebotSimulation("Mazes/Mazes_4x4_2.png", 1.4 , 1.4);
 		GuiMazeVisualization gui = new GuiMazeVisualization(1.5, sim.getStateAccessor());
 		sim.scaleSpeed(1);
-		sim.setRobotPosition(0.75, 0.75, 90);
+		sim.setRobotPosition(0.175, 0.175, 90);
 
 		sim.startSimulation();
 		gui.startVisualization();

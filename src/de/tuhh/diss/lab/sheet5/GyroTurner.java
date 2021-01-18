@@ -33,7 +33,6 @@ private static final double E = 5; //in deg, epsilon
 		float angleValue[] = new float[1];
 		SampleProvider angle = gyrSens.getAngleMode();
 		angle.fetchSample(angleValue, 0);
-		System.out.println(angleValue[0]);                              //state sensor value
 		return Math.abs(angleValue[0]);	 
 	}
 	
@@ -47,9 +46,13 @@ private static final double E = 5; //in deg, epsilon
 	
 	private void turnCW(int deg) {
 		
+		System.out.println("turnCW");                              //state sensor value
+
 		rightMotor.backward();
 		leftMotor.forward();
 		controlTurn(deg);
+		System.out.println("done turning CW");                              //state sensor value
+
 	}
 	
 	
@@ -88,6 +91,8 @@ private static final double E = 5; //in deg, epsilon
 	
 	public void turn(int degrees) {
 
+		System.out.println(degrees);                              //state sensor value
+		
 		if (degrees>0) {
 			turnCCW(degrees);
 			System.out.println("final angle: " + getAngle());                 //state final angle
