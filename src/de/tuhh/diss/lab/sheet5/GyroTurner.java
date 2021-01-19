@@ -7,12 +7,8 @@ import lejos.hardware.sensor.EV3GyroSensor;
 
 public class GyroTurner implements Turner{
 	
-private static final double E = 5; //in deg, epsilon 
-
-	
-
+	private static final double E = 5; //in deg, epsilon 
 	private final int ANGULAR_VELOCITY = 1000;
-	
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
 	private EV3GyroSensor gyrSens;
@@ -47,18 +43,23 @@ private static final double E = 5; //in deg, epsilon
 	
 	private void turnCW(int deg) {
 		
+		System.out.println("first step in CW");
 		rightMotor.backward();
 		leftMotor.forward();
+		System.out.println("second step in CW");
 		controlTurn(deg);
-
+		System.out.println("third step in CW");
 	}
 	
 	
 	private void turnCCW(int deg) {
 		
+		System.out.println("first step in CCW");
 		leftMotor.backward();
 		rightMotor.forward();
+		System.out.println("second step in CCW");
 		controlTurn(deg);
+		System.out.println("third step in CCW");
 	}
 	
 	
@@ -88,18 +89,19 @@ private static final double E = 5; //in deg, epsilon
 	
 	public void turn(int degrees) {
 
-		
 		setSpeed(ANGULAR_VELOCITY);
 		
-
+		System.out.println("First step in turner.turn()");
 		
 		if (degrees>0) {
+			System.out.println("Second step >0 in turner.turn()");
 			turnCCW(degrees);
 
 		}
 		else if(degrees<0){
+			System.out.println("Second step <0 in turner.turn()");
 			turnCW(degrees);
-
+			System.out.println("Third step <0 in turner.turn()");
 		}
 	}
 
