@@ -11,7 +11,8 @@ private static final double E = 5; //in deg, epsilon
 
 	
 
-	private int degreesPerSecond;
+	private final int ANGULAR_VELOCITY = 1000;
+	
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
 	private EV3GyroSensor gyrSens;
@@ -49,7 +50,6 @@ private static final double E = 5; //in deg, epsilon
 		rightMotor.backward();
 		leftMotor.forward();
 		controlTurn(deg);
-		System.out.println("done turning CW");                              //state sensor value
 
 	}
 	
@@ -67,43 +67,38 @@ private static final double E = 5; //in deg, epsilon
 		while (calcDelta(deg) < E) { 
 			Delay.msDelay(5);
 			if(calcDelta(deg) > -5*E ) {                                     //5*epsilon interval set to decrease speed when reached
-				setSpeed((int)0.9*this.degreesPerSecond);
+				setSpeed((int)0.9*ANGULAR_VELOCITY);
 			}
 			if (calcDelta(deg) == 0)break;                                   //the loop is not breaking without this statement
 		}
 		if (calcDelta(deg)<E) {
 			rightMotor.stop();
 			leftMotor.stop();
-			System.out.println("STOPPED MOTOR");                              //state motor state
 			gyrSens.reset();
 		}
 	}
 	
-	
-	private void setSpeed(int degreesPerSecond) {
+	private void setSpeed(int angluarVelocity) {
 		
-		this.degreesPerSecond = degreesPerSecond;
+		rightMotor.setSpeed(angluarVelocity);
+		leftMotor.setSpeed(angluarVelocity);
 		
-		rightMotor.setSpeed(this.degreesPerSecond);
-		leftMotor.setSpeed(this.degreesPerSecond);		
 	}
 	
 	
-	public void turn(int degrees, int degreesPerSecond) {
+	public void turn(int degrees) {
 
-		System.out.println(degrees);                              //state sensor value
-		this.degreesPerSecond = degreesPerSecond;
-		setSpeed(this.degreesPerSecond);
+		
+		setSpeed(ANGULAR_VELOCITY);
+		
 
 		
 		if (degrees>0) {
 			turnCCW(degrees);
-			System.out.println("final angle: " + getAngle());                 //state final angle
 
 		}
 		else if(degrees<0){
 			turnCW(degrees);
-			System.out.println("final angle: " + -getAngle());                //state final angle
 
 		}
 	}
