@@ -74,14 +74,14 @@ public class MazeSolver {
 				System.out.println("2");
 				driver.driveTileForward();				// drives left if left Wall is not wanted Color but is None (no wall)
 				loopOfDeath = true;
-			} else {
-				System.out.println("3");
-				turner.turn(90);							// turns right relativ, front absolut
+			} else {									
+				System.out.println("3");				// 3: checked color is neither wanted nor "none"
+				turner.turn(90);						// turns right relativ, front absolut
 				if (foundColorFront == "NONE") {
 					driver.driveTileForward();			// drives forward
 					loopOfDeath = true;
 				} else {
-					turner.turn(90);
+					turner.turn(90);                    	
 					loopOfDeath = false;
 				}
 			}
