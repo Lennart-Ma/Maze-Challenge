@@ -37,8 +37,16 @@ public class GyroTurner implements Turner{
 	
 	private double calcDelta (int deg) {
 		
-		if (deg>0) return -deg + getAngle();
-		else return deg + getAngle();
+		double delta;
+		
+		if (deg>0) {
+			delta = getAngle() - deg;
+			return delta;
+		}
+		else {
+			delta = getAngle() + deg;
+			return delta;
+		}
 	}
 	
 	
@@ -46,6 +54,7 @@ public class GyroTurner implements Turner{
 		
 		rightMotor.backward();
 		leftMotor.forward();
+		Delay.msDelay(50);
 		controlTurn(deg);
 	}
 	
@@ -54,6 +63,7 @@ public class GyroTurner implements Turner{
 		
 		leftMotor.backward();
 		rightMotor.forward();
+		Delay.msDelay(50);
 		controlTurn(deg);
 	}
 	
@@ -61,13 +71,13 @@ public class GyroTurner implements Turner{
 	private void controlTurn(int deg) {
 
 		while (calcDelta(deg) < END) { 
-			Delay.msDelay(5);
+			Delay.msDelay(20);
 			if(calcDelta(deg) > 5*E ) {                  //5*epsilon interval set to decrease speed when reached
 				setSpeed((int)0.999*ANGULAR_VELOCITY);
 			}
-			System.out.println("In turner 1" + calcDelta(deg));
-			if (calcDelta(deg) == 0)break;               //the loop is not breaking without this statement
-			System.out.println("In turner 1" + calcDelta(deg));
+			System.out.println("In turner 1 " + calcDelta(deg));
+			System.out.println("Motor Speed (left, right): " + leftMotor.getSpeed() + " r: " + rightMotor.getSpeed());
+			// if (calcDelta(deg) == 0)break;              //the loop is not breaking without this statement
 		}
 
 		rightMotor.stop();

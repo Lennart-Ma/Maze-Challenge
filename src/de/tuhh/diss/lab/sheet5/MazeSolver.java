@@ -106,7 +106,7 @@ public class MazeSolver {
 	}
 
 	public static void main(String[] args) {
-		MazebotSimulation sim = new MazebotSimulation("Mazes/Mazes_4x4_2.png", 1.4 , 1.4);
+		MazebotSimulation sim = new MazebotSimulation("Mazes/Mazes_4x4_1.png", 1.4 , 1.4);
 		GuiMazeVisualization gui = new GuiMazeVisualization(1.4, sim.getStateAccessor());
 		sim.scaleSpeed(1);
 		sim.setRobotPosition(0.175, 0.175, 90);
