@@ -2,11 +2,11 @@ package de.tuhh.diss.lab.sheet5;
 
 import MazebotSim.MazebotSimulation;
 import MazebotSim.Visualization.GuiMazeVisualization;
-import de.tuhh.diss.lab.sheet4.Robot;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3GyroSensor;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
@@ -16,6 +16,7 @@ public class MazeSolver {
 	private static RegulatedMotor leftMotor;
 	private static RegulatedMotor rightMotor;
 	private static EV3GyroSensor gyrSens;
+	private static EV3UltrasonicSensor distSens;
 	private static String wantedColor;
 	private static String foundColor;
 	private static String foundColorFront;
@@ -26,69 +27,74 @@ public class MazeSolver {
 	private static ColorDetector colorDetector;
 	private static GyroTurner turner;
 	private static Drive driver;
-	private static double frictionCoefficiant=0.015;
-	private static int counter=0;
-	private static final int TILELENGTH = 350/2; //in mm
-
 	
 	
 	private static void initializeHardware() {
 		rightMotor = new EV3LargeRegulatedMotor(MotorPort.C);
 		leftMotor = new EV3LargeRegulatedMotor(MotorPort.B);
 		gyrSens = new EV3GyroSensor(SensorPort.S3);
+		distSens = new EV3UltrasonicSensor(SensorPort.S4);
 	}
 	
 	private static String checkWallColor() {
-		driver.driveForward(-45);
-		foundColor = colorDetector.getColor();			    //kein Zugriff auf turnCW oder CCW da sonst direkter Zugriff auf leftMotor,rightMotor
-		driver.driveForward(45);
+		System.out.println("Entered checkWallColor");
+		driver.approachTileEdge(true);
+		foundColor = colorDetector.getColor();
+		if (foundColor != "NONE") {
+			driver.adjustTileEdgeDist();
+		} else {
+			driver.approachTileEdge(false);
+		}
+		System.out.println(driver.checkDistance());
+		System.out.println("Closed checkWallColor, Color: " + foundColor + " , loopofDeath = " + loopOfDeath);
 		return foundColor;
 	}
 	
 	private static boolean solvingMaze() {
+				
 		
 		foundColorFront = checkWallColor();							//check front wall
 		colorFound = false;
 		
-		System.out.println("Found Color: " + foundColor);                              //state sensor value
-		System.out.println("Wanted Color: " + wantedColor);                              //state sensor value
-
-		
+	
 		if (foundColor == wantedColor) {						
 			simpleBeeper.playBeep();
 			colorFound = true;
 		} else if(loopOfDeath) {
-			System.out.println("in 1st else");                  
-			turner.turn(-90,1000);								
+			System.out.println("In first if else loop" + " Starting to turn");
+			turner.turn(-90);
+			System.out.println("Done Turning");
 			foundColor = checkWallColor();						//check left wall
-			System.out.println("Found Color: " + foundColor);   
-			
+			System.out.println("Done checkCOlor, Color: " + colorDetector.getColor());
 			if (foundColor == wantedColor) {
+				System.out.println("1");
 				simpleBeeper.playBeep();
 				colorFound = true;
 			} else if (foundColor == "NONE") {					
-				driver.driveForward((int)(-TILELENGTH*(1-frictionCoefficiant*counter)));				// drives left if left Wall is not wanted Color but is None (no wall)
+				System.out.println("2");
+				driver.driveTileForward();				// drives left if left Wall is not wanted Color but is None (no wall)
 				loopOfDeath = true;
 			} else {
-				turner.turn(90,1000);							// turns right relativ, front absolut
+				System.out.println("3");
+				turner.turn(90);							// turns right relativ, front absolut
 				if (foundColorFront == "NONE") {
-					driver.driveForward((int)(-TILELENGTH*(1-frictionCoefficiant*counter)));			// drives forward
+					driver.driveTileForward();			// drives forward
 					loopOfDeath = true;
 				} else {
-					turner.turn(90,1000);
+					turner.turn(90);
 					loopOfDeath = false;
 				}
 			}
 		} else {
 			if (foundColorFront == "NONE") {
-				driver.driveForward((int)(-TILELENGTH*(1-frictionCoefficiant*counter)));
+				driver.driveTileForward();
 				loopOfDeath = true;
 			} else {
-				turner.turn(90,1000);
+				turner.turn(90);
 				loopOfDeath = false;
 			}
 		}
-		counter++;
+		System.out.println("loop done");
 		return colorFound;
 	}
 
@@ -107,13 +113,14 @@ public class MazeSolver {
 		colorDetector = new ColorDetector();
 		initializeHardware();
 		turner = new GyroTurner(leftMotor, rightMotor, gyrSens);
-		driver = new Drive(leftMotor, rightMotor);
-		
-		
+		driver = new Drive(leftMotor, rightMotor, distSens);
 		robotStarter.startRobot();
 		simpleBeeper.playBeep();
-
 		wantedColor = robotStarter.getColor();
+		
+		// adjust the maximum Motor Speed
+		System.out.println(rightMotor.getMaxSpeed());
+		
 		
 		while (colorFound == false) {
 			colorFound = solvingMaze();
