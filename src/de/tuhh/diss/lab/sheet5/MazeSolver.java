@@ -1,5 +1,8 @@
 package de.tuhh.diss.lab.sheet5;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import MazebotSim.MazebotSimulation;
 import MazebotSim.Visualization.GuiMazeVisualization;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
@@ -34,10 +37,11 @@ public class MazeSolver {
 		leftMotor = new EV3LargeRegulatedMotor(MotorPort.B);
 		gyrSens = new EV3GyroSensor(SensorPort.S3);
 		distSens = new EV3UltrasonicSensor(SensorPort.S4);
+		foundColorFront = foundColor = "NONE";
 	}
 	
 	private static String checkWallColor() {
-		System.out.println("Entered checkWallColor");
+		System.out.println("START: checkWallColor()");
 		driver.approachTileEdge(true);
 		foundColor = colorDetector.getColor();
 		if (foundColor != "NONE") {
@@ -45,15 +49,20 @@ public class MazeSolver {
 		} else {
 			driver.approachTileEdge(false);
 		}
-		System.out.println(driver.checkDistance());
-		System.out.println("Closed checkWallColor, Color: " + foundColor + " , loopofDeath = " + loopOfDeath);
+		System.out.println("Distance: " + driver.checkDistance());
+		System.out.println("END checkWallColor(), Color: " + foundColor + " , loopofDeath = " + loopOfDeath);
 		return foundColor;
 	}
 	
 	private static boolean solvingMaze() {
-				
+			
+		System.out.println("START: solvingMaze()");
+		System.out.println("Distance: " + driver.checkDistance());
 		
+		//if(driver.checkDistance() < 200) {
 		foundColorFront = checkWallColor();							//check front wall
+	//	} else foundColorFront = foundColor = "NONE";
+
 		colorFound = false;
 		
 	
@@ -61,16 +70,14 @@ public class MazeSolver {
 			simpleBeeper.playBeep();
 			colorFound = true;
 		} else if(loopOfDeath) {
-			System.out.println("In first if else loop" + " Starting to turn");
 			turner.turn(-90);
-			System.out.println("Done Turning");
 			foundColor = checkWallColor();						//check left wall
-			System.out.println("Done checkCOlor, Color: " + colorDetector.getColor());
+			System.out.println("Done checkCOlor, Color: " + colorDetector.getColor());   //.getColor at wrong time -> always none?
 			if (foundColor == wantedColor) {
 				System.out.println("1");
 				simpleBeeper.playBeep();
 				colorFound = true;
-			} else if (foundColor == "NONE") {					
+			} else if (foundColor == "NONE") {				
 				System.out.println("2");
 				driver.driveTileForward();				// drives left if left Wall is not wanted Color but is None (no wall)
 				loopOfDeath = true;
@@ -94,7 +101,7 @@ public class MazeSolver {
 				loopOfDeath = false;
 			}
 		}
-		System.out.println("loop done");
+		System.out.println("END: solvingMaze()");
 		return colorFound;
 	}
 
@@ -121,12 +128,17 @@ public class MazeSolver {
 		// adjust the maximum Motor Speed
 		System.out.println(rightMotor.getMaxSpeed());
 		
-		
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+		Date date = new Date(System.currentTimeMillis());
+		System.out.println("Start: " + formatter.format(date));
+
 		while (colorFound == false) {
 			colorFound = solvingMaze();
 		}
 		
-		
+		date = new Date(System.currentTimeMillis());
+		System.out.println("End: " + formatter.format(date));
+
 		Delay.msDelay(100);
 		sim.stopSimulation();
 

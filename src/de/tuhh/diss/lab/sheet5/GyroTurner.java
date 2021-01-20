@@ -44,23 +44,17 @@ public class GyroTurner implements Turner{
 	
 	private void turnCW(int deg) {
 		
-		System.out.println("first step in CW");
 		rightMotor.backward();
 		leftMotor.forward();
-		System.out.println("second step in CW");
 		controlTurn(deg);
-		System.out.println("third step in CW");
 	}
 	
 	
 	private void turnCCW(int deg) {
 		
-		System.out.println("first step in CCW");
 		leftMotor.backward();
 		rightMotor.forward();
-		System.out.println("second step in CCW");
 		controlTurn(deg);
-		System.out.println("third step in CCW");
 	}
 	
 	
@@ -68,44 +62,35 @@ public class GyroTurner implements Turner{
 
 		while (calcDelta(deg) < END) { 
 			Delay.msDelay(5);
-			if(calcDelta(deg) > 5*E ) {                                     //5*epsilon interval set to decrease speed when reached
+			if(calcDelta(deg) > 5*E ) {                  //5*epsilon interval set to decrease speed when reached
 				setSpeed((int)0.999*ANGULAR_VELOCITY);
 			}
-			System.out.println("1st step in controlTurn" + calcDelta(deg));
-			if (calcDelta(deg) == 0)break;                                   //the loop is not breaking without this statement
-			System.out.println("2st step in controlTurn" + calcDelta(deg));
+			if (calcDelta(deg) == 0)break;               //the loop is not breaking without this statement
 		}
 
 		rightMotor.stop();
 		leftMotor.stop();
 		gyrSens.reset();
-
 	}
+	
 	
 	private void setSpeed(int angluarVelocity) {
 		
 		rightMotor.setSpeed(angluarVelocity);
 		leftMotor.setSpeed(angluarVelocity);
-		
 	}
 	
 	
 	public void turn(int degrees) {
 
-		setSpeed(ANGULAR_VELOCITY);
-		
-		System.out.println("First step in turner.turn()");
-		
+		setSpeed(ANGULAR_VELOCITY);		
 		if (degrees>0) {
-			System.out.println("Second step >0 in turner.turn()");
 			turnCCW(degrees);
-
+			System.out.println("turnCCW done");
 		}
 		else if(degrees<0){
-			System.out.println("Second step <0 in turner.turn()");
 			turnCW(degrees);
-			System.out.println("Third step <0 in turner.turn()");
+			System.out.println("turnCW done");
 		}
 	}
-
 }

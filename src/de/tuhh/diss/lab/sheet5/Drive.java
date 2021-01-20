@@ -40,6 +40,8 @@ public class Drive implements Driver{
 		this.leftMotor.rotate(motorDegree,true);
 
 		Delay.msDelay(3 * delayTimeInt);
+		System.out.println("END: driveTileForward()");
+
 	}
 	
 	public void approachTileEdge(boolean towards) {
@@ -59,8 +61,8 @@ public class Drive implements Driver{
 		this.rightMotor.rotate(motorDegree,true);
 		this.leftMotor.rotate(motorDegree,true);
 
-		Delay.msDelay(5 * delayTimeInt);
-		
+			Delay.msDelay(5 * delayTimeInt);
+
 	}
 	
 	
@@ -83,6 +85,7 @@ public class Drive implements Driver{
 		
 		this.rightMotor.rotate(motorDegree,true);
 		this.leftMotor.rotate(motorDegree,true);
+
 
 		Delay.msDelay(5 * delayTimeInt);
 		
