@@ -70,7 +70,9 @@ public class GyroTurner implements Turner{
 			if(calcDelta(deg) > -5*E ) {                                     //5*epsilon interval set to decrease speed when reached
 				setSpeed((int)0.9*ANGULAR_VELOCITY);
 			}
+			System.out.println("1st step in controlTurn" + calcDelta(deg));
 			if (calcDelta(deg) == 0)break;                                   //the loop is not breaking without this statement
+			System.out.println("2st step in controlTurn" + calcDelta(deg));
 		}
 		if (calcDelta(deg)<E) {
 			rightMotor.stop();
