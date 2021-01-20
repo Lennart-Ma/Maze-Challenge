@@ -41,7 +41,6 @@ public class MazeSolver {
 	}
 	
 	private static String checkWallColor() {
-		System.out.println("START: checkWallColor()");
 		driver.approachTileEdge(true);
 		foundColor = colorDetector.getColor();
 		if (foundColor != "NONE") {
@@ -49,55 +48,56 @@ public class MazeSolver {
 		} else {
 			driver.approachTileEdge(false);
 		}
-		System.out.println("Distance: " + driver.checkDistance());
-		System.out.println("END checkWallColor(), Color: " + foundColor + " , loopofDeath = " + loopOfDeath);
 		return foundColor;
 	}
 	
 	private static boolean solvingMaze() {
-			
-		System.out.println("START: solvingMaze()");
-		System.out.println("Distance: " + driver.checkDistance());
 		
-		//if(driver.checkDistance() < 200) {
 		foundColorFront = checkWallColor();							//check front wall
-	//	} else foundColorFront = foundColor = "NONE";
-
 		colorFound = false;
-		
 	
 		if (foundColor == wantedColor) {						
 			simpleBeeper.playBeep();
 			colorFound = true;
 		} else if(loopOfDeath) {
+			System.out.println("0.1" + colorDetector.getColor());
 			turner.turn(-90);
+			System.out.println("0.2" + colorDetector.getColor());
 			foundColor = checkWallColor();						//check left wall
-			System.out.println("Done checkCOlor, Color: " + colorDetector.getColor());   //.getColor at wrong time -> always none?
 			if (foundColor == wantedColor) {
-				System.out.println("1");
 				simpleBeeper.playBeep();
 				colorFound = true;
 			} else if (foundColor == "NONE") {				
-				System.out.println("2");
+				System.out.println("2.1" + colorDetector.getColor());
 				driver.driveTileForward();				// drives left if left Wall is not wanted Color but is None (no wall)
+				System.out.println("2.2" + colorDetector.getColor());
 				loopOfDeath = true;
 			} else {									
-				System.out.println("3");				// 3: checked color is neither wanted nor "none"
+				System.out.println("3.1" + colorDetector.getColor());				// 3: checked color is neither wanted nor "none"
 				turner.turn(90);						// turns right relativ, front absolut
+				System.out.println("3.2" + colorDetector.getColor());
 				if (foundColorFront == "NONE") {
+					System.out.println("4.1" + colorDetector.getColor());
 					driver.driveTileForward();			// drives forward
 					loopOfDeath = true;
+					System.out.println("4.2" + colorDetector.getColor());
 				} else {
-					turner.turn(90);                    	
+					System.out.println("5.1" + colorDetector.getColor());
+					turner.turn(90);
+					System.out.println("5.2" + colorDetector.getColor());
 					loopOfDeath = false;
 				}
 			}
 		} else {
 			if (foundColorFront == "NONE") {
+				System.out.println("6.1" + colorDetector.getColor());
 				driver.driveTileForward();
+				System.out.println("6.2" + colorDetector.getColor());
 				loopOfDeath = true;
 			} else {
+				System.out.println("7.1" + colorDetector.getColor());
 				turner.turn(90);
+				System.out.println("7.2" + colorDetector.getColor());
 				loopOfDeath = false;
 			}
 		}
