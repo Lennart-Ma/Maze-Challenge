@@ -7,9 +7,8 @@ import lejos.hardware.sensor.EV3GyroSensor;
 
 public class GyroTurner implements Turner{
 	
-	private static final double E = -5; //epsilon
-	private static final double END = -2; 
-	private final int ANGULAR_VELOCITY = 1000;
+	private static final double END = 0; 
+	private final double ANGULAR_VELOCITY = 750;
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
 	private EV3GyroSensor gyrSens;
@@ -40,49 +39,73 @@ public class GyroTurner implements Turner{
 		double delta;
 		
 		if (deg>0) {
-			delta = getAngle() - deg;
+			delta = -getAngle() + deg;
 			return delta;
 		}
 		else {
-			delta = getAngle() + deg;
+			delta = -getAngle() - deg;
 			return delta;
 		}
 	}
 	
 	
-	private void turnCW(int deg) {
-		
-		rightMotor.backward();
-		leftMotor.forward();
-		Delay.msDelay(50);
-		controlTurn(deg);
+	private void runMotors(int angularVelocityInt, boolean CW) {
+		setSpeed(angularVelocityInt);
+		if (CW) {
+			rightMotor.forward();
+			leftMotor.backward();
+		} else {
+			rightMotor.backward();
+			leftMotor.forward();
+		}
+		Delay.msDelay(5);
 	}
 	
-	
-	private void turnCCW(int deg) {
+	public void turnCW() {
 		
-		leftMotor.backward();
-		rightMotor.forward();
-		Delay.msDelay(50);
-		controlTurn(deg);
-	}
-	
-	
-	private void controlTurn(int deg) {
-
-		while (calcDelta(deg) < END) { 
-			Delay.msDelay(20);
-			if(calcDelta(deg) > 5*E ) {                  //5*epsilon interval set to decrease speed when reached
-				setSpeed((int)0.999*ANGULAR_VELOCITY);
-			}
-			System.out.println("In turner 1 " + calcDelta(deg));
-			System.out.println("Motor Speed (left, right): " + leftMotor.getSpeed() + " r: " + rightMotor.getSpeed());
-			// if (calcDelta(deg) == 0)break;              //the loop is not breaking without this statement
+		int deg = -90;
+		
+		while (calcDelta(deg) > END) { 
+			
+			if (calcDelta(deg) <= 20) {
+				
+				double angularVelocity = ((calcDelta(deg)/90) * ANGULAR_VELOCITY);
+				int angularVelocityInt = (int)angularVelocity;
+				runMotors(angularVelocityInt, true);
+			} else {
+				
+				runMotors((int)ANGULAR_VELOCITY, true);
+			}	
 		}
 
 		rightMotor.stop();
 		leftMotor.stop();
 		gyrSens.reset();
+		
+	}
+	
+	
+	public void turnCCW() {
+		
+		int deg = 90;
+		
+		while (calcDelta(deg) > END) { 
+			
+			if (calcDelta(deg) <= 20) {
+				
+				double angularVelocity = ((calcDelta(deg)/90) * ANGULAR_VELOCITY);
+				int angularVelocityInt = (int)angularVelocity;
+				runMotors(angularVelocityInt, false);
+			} else {
+				
+				runMotors((int)ANGULAR_VELOCITY, false);
+			}	
+		}
+		
+		rightMotor.stop();
+		leftMotor.stop();	
+		gyrSens.reset();
+		
 	}
 	
 	
@@ -92,15 +115,4 @@ public class GyroTurner implements Turner{
 		leftMotor.setSpeed(angluarVelocity);
 	}
 	
-	
-	public void turn(int degrees) {
-
-		setSpeed(ANGULAR_VELOCITY);		
-		if (degrees>0) {
-			turnCCW(degrees);
-		}
-		else if(degrees<0){
-			turnCW(degrees);
-		}
-	}
 }

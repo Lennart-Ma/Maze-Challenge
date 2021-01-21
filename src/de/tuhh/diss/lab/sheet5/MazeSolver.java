@@ -60,48 +60,33 @@ public class MazeSolver {
 			simpleBeeper.playBeep();
 			colorFound = true;
 		} else if(loopOfDeath) {
-			System.out.println("0.1" + colorDetector.getColor());
-			turner.turn(-90);
-			System.out.println("0.2" + colorDetector.getColor());
-			foundColor = checkWallColor();						//check left wall
+			turner.turnCCW();
+			foundColor = checkWallColor();						//check left wall	
 			if (foundColor == wantedColor) {
 				simpleBeeper.playBeep();
 				colorFound = true;
 			} else if (foundColor == "NONE") {				
-				System.out.println("2.1" + colorDetector.getColor());
 				driver.driveTileForward();				// drives left if left Wall is not wanted Color but is None (no wall)
-				System.out.println("2.2" + colorDetector.getColor());
 				loopOfDeath = true;
 			} else {									
-				System.out.println("3.1" + colorDetector.getColor());				// 3: checked color is neither wanted nor "none"
-				turner.turn(90);						// turns right relativ, front absolut
-				System.out.println("3.2" + colorDetector.getColor());
+				turner.turnCW();						// turns right relativ, front absolut
 				if (foundColorFront == "NONE") {
-					System.out.println("4.1" + colorDetector.getColor());
 					driver.driveTileForward();			// drives forward
 					loopOfDeath = true;
-					System.out.println("4.2" + colorDetector.getColor());
 				} else {
-					System.out.println("5.1" + colorDetector.getColor());
-					turner.turn(90);
-					System.out.println("5.2" + colorDetector.getColor());
+					turner.turnCW();
 					loopOfDeath = false;
 				}
 			}
 		} else {
 			if (foundColorFront == "NONE") {
-				System.out.println("6.1" + colorDetector.getColor());
 				driver.driveTileForward();
-				System.out.println("6.2" + colorDetector.getColor());
 				loopOfDeath = true;
 			} else {
-				System.out.println("7.1" + colorDetector.getColor());
-				turner.turn(90);
-				System.out.println("7.2" + colorDetector.getColor());
+				turner.turnCW();
 				loopOfDeath = false;
 			}
 		}
-		System.out.println("END: solvingMaze()");
 		return colorFound;
 	}
 
