@@ -25,7 +25,7 @@ public class GyroTurner implements Turner{
 	}
 
 	
-	private float getAngle () {
+	private float getAngle() {
 		
 		float angleValue[] = new float[1];
 		SampleProvider angle = gyrSens.getAngleMode();
@@ -67,9 +67,9 @@ public class GyroTurner implements Turner{
 		
 		while (calcDelta(deg) > END) { 
 			
-			if (calcDelta(deg) <= 20) {
+			if (calcDelta(deg) <= 25) {
 				
-				double angularVelocity = ((calcDelta(deg)/90) * ANGULAR_VELOCITY);
+				double angularVelocity = ((calcDelta(deg)/55) * ANGULAR_VELOCITY);
 				int angularVelocityInt = (int)angularVelocity;
 				runMotors(angularVelocityInt, true);
 			} else {
@@ -91,10 +91,12 @@ public class GyroTurner implements Turner{
 		
 		while (calcDelta(deg) > END) { 
 			
-			if (calcDelta(deg) <= 20) {
+			if (calcDelta(deg) <= 25) {
 				
-				double angularVelocity = ((calcDelta(deg)/90) * ANGULAR_VELOCITY);
+				double angularVelocity = ((calcDelta(deg)/55) * ANGULAR_VELOCITY);
 				int angularVelocityInt = (int)angularVelocity;
+				System.out.println(angularVelocityInt);
+				System.out.println(getAngle());
 				runMotors(angularVelocityInt, false);
 			} else {
 				
