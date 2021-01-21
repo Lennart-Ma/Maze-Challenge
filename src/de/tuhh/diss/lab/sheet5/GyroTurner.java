@@ -8,7 +8,7 @@ import lejos.hardware.sensor.EV3GyroSensor;
 public class GyroTurner implements Turner{
 	
 	private static final double END = 0; 
-	private final double ANGULAR_VELOCITY = 750;
+	private final double ANGULAR_VELOCITY = 760;
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
 	private EV3GyroSensor gyrSens;
@@ -95,8 +95,6 @@ public class GyroTurner implements Turner{
 				
 				double angularVelocity = ((calcDelta(deg)/55) * ANGULAR_VELOCITY);
 				int angularVelocityInt = (int)angularVelocity;
-				System.out.println(angularVelocityInt);
-				System.out.println(getAngle());
 				runMotors(angularVelocityInt, false);
 			} else {
 				

@@ -12,13 +12,12 @@ public class Drive implements Driver{
 	private RegulatedMotor rightMotor;
 	private EV3UltrasonicSensor distSens;
 	private final int WHEELDIAMETER = 54; //in mm
-	private final int ANGULAR_VELOCITY = 1500;
+	private final int ANGULAR_VELOCITY = 760;
 	private final int TILELENGTH = 350; //in mm
+	private double TILE_LENGTH = 350;
 	private double distanceToWallDouble;
 	private int distanceToWall;
-	private double angularVelocity;
 	private double actualDistToWall;
-	private double TILE_LENGTH = 350;
 	
 	
 	public Drive(RegulatedMotor leftMotor, RegulatedMotor rightMotor, EV3UltrasonicSensor distSens) {
@@ -32,14 +31,13 @@ public class Drive implements Driver{
 		
 		int motorDegree = setMotorDegree(-TILELENGTH);
 		setSpeed();
-		double angularVelocity = ANGULAR_VELOCITY;
-		double delayTime = (Math.abs(motorDegree)/Math.abs(angularVelocity))*1000;
-		int delayTimeInt = (int)delayTime;
 		
 		this.rightMotor.rotate(motorDegree,true);
-		this.leftMotor.rotate(motorDegree,true);
-
-		Delay.msDelay(3 * delayTimeInt);
+		this.leftMotor.rotate(motorDegree,false);
+		
+		System.out.println("Got here");
+		
+		Delay.msDelay(250);
 	}
 	
 	public void approachTileEdge(boolean towards) {
@@ -52,14 +50,12 @@ public class Drive implements Driver{
 		
 		int motorDegree = setMotorDegree(distanceToWall);
 		setSpeed();
-		double angularVelocity = ANGULAR_VELOCITY;
-		double delayTime = (Math.abs(motorDegree)/Math.abs(angularVelocity))*1000;
-		int delayTimeInt = (int)delayTime;
+		
 		
 		this.rightMotor.rotate(motorDegree,true);
-		this.leftMotor.rotate(motorDegree,true);
-
-		Delay.msDelay(5 * delayTimeInt);
+		this.leftMotor.rotate(motorDegree,false);
+		
+		Delay.msDelay(250);
 		
 	}
 	
@@ -75,14 +71,11 @@ public class Drive implements Driver{
 		
 		int motorDegree = setMotorDegree(distanceToWall);
 		setSpeed();
-		double angularVelocity = ANGULAR_VELOCITY;
-		double delayTime = (Math.abs(motorDegree)/Math.abs(angularVelocity))*1000;
-		int delayTimeInt = (int)delayTime;
 		
 		this.rightMotor.rotate(motorDegree,true);
-		this.leftMotor.rotate(motorDegree,true);
+		this.leftMotor.rotate(motorDegree,false);
 
-		Delay.msDelay(5 * delayTimeInt);
+		Delay.msDelay(250);
 		
 	}
 	

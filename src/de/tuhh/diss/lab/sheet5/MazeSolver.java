@@ -52,6 +52,7 @@ public class MazeSolver {
 	}
 	
 	private static boolean solvingMaze() {
+				
 		
 		foundColorFront = checkWallColor();							//check front wall
 		colorFound = false;
