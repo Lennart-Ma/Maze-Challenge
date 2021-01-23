@@ -1,7 +1,5 @@
 package de.tuhh.diss.lab.sheet5;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import MazebotSim.MazebotSimulation;
 import MazebotSim.Visualization.GuiMazeVisualization;
@@ -108,16 +106,11 @@ public class MazeSolver {
 		simpleBeeper.playBeep();
 		wantedColor = robotStarter.getWantedColor();
 		
-		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-		Date date = new Date(System.currentTimeMillis());
-		System.out.println("Start: " + formatter.format(date));
 
 		while (colorFound == false) {
 			colorFound = solvingMaze();
 		}
 		
-		date = new Date(System.currentTimeMillis());
-		System.out.println("End: " + formatter.format(date));
 
 		Delay.msDelay(100);
 		sim.stopSimulation();
