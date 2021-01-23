@@ -32,19 +32,19 @@ public class RobotStarter implements Starter {
 	}
 	
 	
-	private void printArrow(int y) {
+	private void printArrow(int yPos) {
 		
 		int xArrowPos = 0;
 		String arrow = ">";
 		
-		LCD.drawString(arrow, xArrowPos, y);
+		LCD.drawString(arrow, xArrowPos, yPos);
 	}
 	
 	
-	private void deletePrevArrw(int y) {
+	private void deletePrevArrw(int yPos) {
 		int xPosArrow = 0;
 		String noarrow = "  ";
-		LCD.drawString(noarrow, xPosArrow, y);
+		LCD.drawString(noarrow, xPosArrow, yPos);
 	}
 		
 	
