@@ -78,7 +78,7 @@ public class TileDriver implements Driver{
 		
 		distValueMm = distValue[0] * 1000;
 		
-		distSens.close(); 
+		distSens.close();
 		
 		return distValueMm;
 		
