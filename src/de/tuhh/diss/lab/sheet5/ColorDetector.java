@@ -6,14 +6,16 @@ import lejos.hardware.sensor.SensorMode;
 
 public class ColorDetector implements ColorDetect {
 
+	
+	private String color;
 
 	public ColorDetector() {
 		
 	}
 	
 	public String getColor() {
-		
-		String color = "None";
+				
+		color = "None";
 		
 		float[] colorId;
 		colorId = new float[1];

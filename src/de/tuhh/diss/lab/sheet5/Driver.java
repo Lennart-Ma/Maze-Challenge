@@ -5,5 +5,4 @@ public interface Driver {
 	public void driveTileForward();
 	public void approachTileEdge(boolean towards);
 	public void adjustTileEdgeDist();
-	public double checkDistance();
 }

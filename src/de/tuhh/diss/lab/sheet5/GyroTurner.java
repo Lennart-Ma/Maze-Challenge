@@ -3,22 +3,23 @@ package de.tuhh.diss.lab.sheet5;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
+import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3GyroSensor;
 
 public class GyroTurner implements Turner{
 	
-	private static final double END = 0; 
+	private final double TURNING_END = 0; 
 	private final double ANGULAR_VELOCITY = 760;
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
 	private EV3GyroSensor gyrSens;
 	
 
-	public GyroTurner(RegulatedMotor leftMotor, RegulatedMotor rightMotor, EV3GyroSensor gyrSens) {
+	public GyroTurner(RegulatedMotor leftMotor, RegulatedMotor rightMotor) {
 		
 		this.leftMotor= leftMotor;
 		this.rightMotor = rightMotor;
-		this.gyrSens = gyrSens;
+		this.gyrSens = new EV3GyroSensor(SensorPort.S3);
 		Delay.msDelay(750);
 		this.gyrSens.reset();
 		Delay.msDelay(750);		
@@ -65,11 +66,11 @@ public class GyroTurner implements Turner{
 		
 		int deg = -90;
 		
-		while (calcDelta(deg) > END) { 
+		while (calcDelta(deg) > TURNING_END) { 
 			
-			if (calcDelta(deg) <= 25) {
+			if (calcDelta(deg) <= 20) {
 				
-				double angularVelocity = ((calcDelta(deg)/55) * ANGULAR_VELOCITY);
+				double angularVelocity = ((calcDelta(deg)/45) * ANGULAR_VELOCITY);
 				int angularVelocityInt = (int)angularVelocity;
 				runMotors(angularVelocityInt, true);
 			} else {
@@ -89,11 +90,11 @@ public class GyroTurner implements Turner{
 		
 		int deg = 90;
 		
-		while (calcDelta(deg) > END) { 
+		while (calcDelta(deg) > TURNING_END) { 
 			
-			if (calcDelta(deg) <= 25) {
+			if (calcDelta(deg) <= 20) {
 				
-				double angularVelocity = ((calcDelta(deg)/55) * ANGULAR_VELOCITY);
+				double angularVelocity = ((calcDelta(deg)/45) * ANGULAR_VELOCITY);
 				int angularVelocityInt = (int)angularVelocity;
 				runMotors(angularVelocityInt, false);
 			} else {

@@ -1,20 +1,10 @@
 package de.tuhh.diss.lab.sheet5;
 
 import lejos.hardware.Button;
-import lejos.hardware.Sound;
 import lejos.hardware.lcd.LCD;
 
 public class RobotStarter implements Starter {
 	
-	private String menu;									// Make sure which variables can be 
-	private int menuPosY;
-	private String colorOne;
-	private int colorOnePosY;
-	private String colorTwo;
-	private int colorTwoPosY;
-	private String colorThree;
-	private int colorThreePosY;
-	private int arrowLoc;
 	private boolean startRobot;
 	private String wantedColor; 
 	
@@ -25,39 +15,43 @@ public class RobotStarter implements Starter {
 	private void displayMenu() {
 		
 		String menu = "  Select a Color";
-		int menuPosY = 0;
 		String colorOne = "  Red ";
-		int colorOnePosY = 2;
 		String colorTwo = "  Green ";
-		int colorTwoPosY = 3;
 		String colorThree = "  Blue ";
-		int colorThreePosY = 4;
-		int x = 0;											// change the location where we initialize and the name of the variable x
+		int menuPosY = 0;
+		int colorOnePosY = 2;
+		int colorTwoPosY = 3;
 		
-		LCD.drawString(menu, x, menuPosY);
-		LCD.drawString(colorOne, x, colorOnePosY);
-		LCD.drawString(colorTwo, x, colorTwoPosY);
-		LCD.drawString(colorThree, x, colorThreePosY);
+		int colorThreePosY = 4;
+		int xPosition = 0;											// change the location where we initialize and the name of the variable x
+		
+		LCD.drawString(menu, xPosition, menuPosY);
+		LCD.drawString(colorOne, xPosition, colorOnePosY);
+		LCD.drawString(colorTwo, xPosition, colorTwoPosY);
+		LCD.drawString(colorThree, xPosition, colorThreePosY);
 	}
 	
 	
 	private void printArrow(int y) {
-		int x = 0;
+		
+		int xArrowPos = 0;
 		String arrow = ">";
-		LCD.drawString(arrow, x, y);
+		
+		LCD.drawString(arrow, xArrowPos, y);
 	}
 	
 	
 	private void deletePrevArrw(int y) {
-		int x = 0;
+		int xPosArrow = 0;
 		String noarrow = "  ";
-		LCD.drawString(noarrow, x, y);
+		LCD.drawString(noarrow, xPosArrow, y);
 	}
 		
 	
 	public void startRobot() {
 
-		arrowLoc = 2;
+		int arrowLoc = 2;
+		
 		do {
 			displayMenu();
 			printArrow(arrowLoc);
@@ -97,13 +91,13 @@ public class RobotStarter implements Starter {
 			}	
 		} while (startRobot == false);
 	
-		LCD.drawString("Started searching..", 0, 6); 			// Make it not hardcoded but with a variable
+		LCD.drawString("Started searching..", 0, 6); 
 		LCD.drawString("for " + wantedColor, 0, 7);
 
 	}
 
 
-	public String getColor() {
+	public String getWantedColor() {
 		return wantedColor;
 	}
 	
