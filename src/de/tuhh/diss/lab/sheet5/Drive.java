@@ -14,7 +14,7 @@ public class Drive implements Driver{
 	private final int WHEELDIAMETER = 54; //in mm
 	private final int ANGULAR_VELOCITY = 760;
 	private final int TILELENGTH = 350; //in mm
-	private final int DISTANCE_TO_WALL = 65;
+	private double TILE_LENGTH = 350;
 	private double distanceToWallDouble;
 	private int distanceToWall;
 	private double actualDistToWall;
@@ -43,9 +43,9 @@ public class Drive implements Driver{
 	public void approachTileEdge(boolean towards) {
 		
 		if (towards) {
-			distanceToWall = -DISTANCE_TO_WALL;
+			distanceToWall = -65;
 		} else {
-			distanceToWall = DISTANCE_TO_WALL;
+			distanceToWall = 65;
 		}
 		
 		int motorDegree = setMotorDegree(distanceToWall);
@@ -64,7 +64,7 @@ public class Drive implements Driver{
 		
 		actualDistToWall = checkDistance();
 		
-		distanceToWallDouble = ((TILELENGTH/2) - (actualDistToWall + 55));
+		distanceToWallDouble = ((TILE_LENGTH/2) - (actualDistToWall + 55));
 				
 		distanceToWall = (int)distanceToWallDouble;
 				
