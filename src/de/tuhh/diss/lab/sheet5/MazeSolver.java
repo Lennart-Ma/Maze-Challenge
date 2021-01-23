@@ -24,7 +24,7 @@ public class MazeSolver {
 	private static String foundColor;
 	private static String foundColorFront;
 	private static boolean colorFound;
-	private static boolean loopOfDeath;                  //is set to false initaly since we dont think that the goal wall will be left to the starting position
+	private static boolean loopOfDeath; 					//is set to false initaly since we dont think that the goal wall will be left to the starting position
 	private static RobotStarter robotStarter;
 	private static SimpleBeeper simpleBeeper;
 	private static ColorDetector colorDetector;
@@ -54,7 +54,7 @@ public class MazeSolver {
 	private static boolean solvingMaze() {
 				
 		
-		foundColorFront = checkWallColor();             //check front wall
+		foundColorFront = checkWallColor();							//check front wall
 		colorFound = false;
 	
 		if (foundColor == wantedColor) {						
@@ -62,17 +62,17 @@ public class MazeSolver {
 			colorFound = true;
 		} else if(loopOfDeath) {
 			turner.turnCCW();
-			foundColor = checkWallColor();                //check left wall	
+			foundColor = checkWallColor();						//check left wall	
 			if (foundColor == wantedColor) {
 				simpleBeeper.playBeep();
 				colorFound = true;
 			} else if (foundColor == "NONE") {				
-				driver.driveTileForward();              // drives left if left Wall is not wanted Color but is None (no wall)
+				driver.driveTileForward();				// drives left if left Wall is not wanted Color but is None (no wall)
 				loopOfDeath = true;
 			} else {									
-				turner.turnCW();                        // turns right relativ, front absolut
+				turner.turnCW();						// turns right relativ, front absolut
 				if (foundColorFront == "NONE") {
-					driver.driveTileForward();          // drives forward
+					driver.driveTileForward();			// drives forward
 					loopOfDeath = true;
 				} else {
 					turner.turnCW();
