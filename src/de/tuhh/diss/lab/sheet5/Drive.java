@@ -11,11 +11,11 @@ public class Drive implements Driver{
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
 	private EV3UltrasonicSensor distSens;
-	private final int WHEELDIAMETER = 54;          //in mm
+	private final int WHEELDIAMETER = 54; //in mm
 	private final int ANGULAR_VELOCITY = 760;
-	private final int TILELENGTH = 350; 
+	private final int TILELENGTH = 350; //in mm
 	private final int DISTANCE_TO_WALL = 65;
-	private final int OFFSET_TILE_ADJUSTMENT = 55; //in mm
+	private final int OFFSET_TILE_ADJUSTMENT = 55;
 	private int distanceToWall;
 	
 	
@@ -64,8 +64,9 @@ public class Drive implements Driver{
 		double actualDistToWall = checkDistance();
 		
 		double distanceToWallDouble = ((TILELENGTH/2) - (actualDistToWall + OFFSET_TILE_ADJUSTMENT));
+				
 		distanceToWall = (int)distanceToWallDouble;
-		
+				
 		int motorDegree = setMotorDegree(distanceToWall);
 		setSpeed();
 		
