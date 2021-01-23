@@ -5,12 +5,7 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
 
 public class ColorDetector implements ColorDetect {
-	
-	private final int BLACK = 7;
-	private final int BLUE = 2;
-	private final int NONE = -1;
-	private final int RED = 0;
-	private final int GREEN = 1;
+
 
 	public ColorDetector() {
 		
@@ -31,19 +26,19 @@ public class ColorDetector implements ColorDetect {
 		int colorValue = (int) colorId[0];
 				
 		switch (colorValue) {
-		case BLACK:
+		case 7:
 			color = "Black";
 			break;	
-		case BLUE:
+		case 2:
 			color = "Blue";
 			break;			
-		case NONE:
+		case -1:
 			color = "NONE";
 			break;
-		case RED:
+		case 0:
 			color = "Red";
 			break;		
-		case GREEN:
+		case 1:
 			color = "Green";
 			break;		
 		}
