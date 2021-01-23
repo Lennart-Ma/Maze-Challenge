@@ -15,8 +15,9 @@ public class Drive implements Driver{
 	private final int ANGULAR_VELOCITY = 760;
 	private final int TILELENGTH = 350; //in mm
 	private final int DISTANCE_TO_WALL = 65;
-	private final int OFFSET_TILE_ADJUSTMENT = 55;
+	private double distanceToWallDouble;
 	private int distanceToWall;
+	private double actualDistToWall;
 	
 	
 	public Drive(RegulatedMotor leftMotor, RegulatedMotor rightMotor, EV3UltrasonicSensor distSens) {
@@ -61,12 +62,13 @@ public class Drive implements Driver{
 	
 	public void adjustTileEdgeDist() {
 		
-		double actualDistToWall = checkDistance();
+		actualDistToWall = checkDistance();
 		
-		double distanceToWallDouble = ((TILELENGTH/2) - (actualDistToWall + OFFSET_TILE_ADJUSTMENT));
+		distanceToWallDouble = ((TILELENGTH/2) - (actualDistToWall + 55));
 				
 		distanceToWall = (int)distanceToWallDouble;
 				
+		
 		int motorDegree = setMotorDegree(distanceToWall);
 		setSpeed();
 		
