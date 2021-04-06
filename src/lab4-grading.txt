@@ -1,6 +1,0 @@
-Found Issues:
-- not showing the separate lejos classes
-Comments:
-- seperate words for constants with underscore, e.g. WHEEL_RADIUS instead of WHEELRADIUS
-Points:
-1/2
