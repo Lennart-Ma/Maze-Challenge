@@ -1,9 +1,28 @@
-# MAZE CHALLENGE
+# MAZE CHALLENGE <!-- omit in toc -->
 
-In the Maze Challenge a LeJos Robot is placed in an undisclosed maze. The goal is to find a target wall
-with a specified color within the maze. The target color (red, green, and blue) can be selected in a menu after the program starts.
-Once the color is selected, the robot should start search the maze for the correspondingly colored wall.
+## Table of Content <!-- omit in toc -->
+
+
+- [Explanation of the Challenge](#explanation-of-the-challenge)
+- [Code Explanation](#code-explanation)
+
+
+
+## Explanation of the Challenge
+
+
+- In the Maze Challenge, a LeJos Robot is placed in an undisclosed maze
+-  The goal is to find a target wall with a specified color within the maze. 
+-  The target color (red, green, and blue) can be selected in a menu after the program starts.
+-  The code has to be written in .java and follows the modular design patterns (Decomposability, Composability, Understandability, Continuity, Protection)
+
 
 Sample Maze:
 
-![Maze Example](maze_example.png "Maze")
+<img src="maze_example.png" alt="Maze Example" width="200"/>
+
+## Code Explanation
+
+
+
+
