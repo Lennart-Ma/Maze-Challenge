@@ -17,11 +17,22 @@
 -  The code has to be written in .java and follows the modular design patterns (Decomposability, Composability, Understandability, Continuity, Protection)
 
 
-Sample Maze:
+<h3>Sample Maze:</h3>
 
-<img src="maze_example.png" alt="Maze Example" width="200"/>
+<p align="center">
+    <img src="maze_example.png" alt="Maze Example" width="500"/>
+</p>
 
 ## Code Explanation
+
+- All source files can be found in /src
+
+
+<h3>UML class diagram:</h3>
+
+<p align="center">
+    <img src="UML_Diagram.pdf" alt="UML Diagram" width="500"/>
+</p>
 
 
 
