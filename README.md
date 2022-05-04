@@ -30,10 +30,7 @@
 
 <h3>UML class diagram:</h3>
 
-<p align="center">
-    <object data="UML_Diagram.pdf" type="application/pdf">
-    </object>
-</p>
+<embed src="UML_Diagram.pdf" type="application/pdf">
 
 
 
