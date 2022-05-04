@@ -31,7 +31,7 @@
 <h3>UML class diagram:</h3>
 
 <p align="center">
-    <img src="UML_Diagram.png" alt="UML class diagram" width="500"/>
+    <img src="UML_Diagram.png" alt="UML class diagram" width="100%"/>
 </p>
 
 
