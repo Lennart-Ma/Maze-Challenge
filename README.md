@@ -17,7 +17,7 @@
 -  The code has to be written in .java and follows the modular design patterns (Decomposability, Composability, Understandability, Continuity, Protection)
 
 
-<h3>Sample Maze:</h3>
+<h3>Simplified Sample Maze:</h3>
 
 <p align="center">
     <img src="maze_example.png" alt="Maze Example" width="500"/>
